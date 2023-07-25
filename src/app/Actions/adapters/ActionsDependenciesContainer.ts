@@ -18,7 +18,7 @@ export type ActionsDependencies = {
 export class ActionsDependenciesContainer{
     private static instance: ActionsDependenciesContainer
     public dependencies: ActionsDependencies = {
-        actionRepository:new RealActionsRepository(),
+        actionRepository:new InMemoryActionsRepository(),
         dateService:new RealDateService(),
         idGenerator:new RealIdGenerator(),
            

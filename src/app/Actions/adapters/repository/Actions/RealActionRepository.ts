@@ -1,4 +1,4 @@
-import { SqlRepository } from "../../../../../infra/repository/SqlRepository";
+import { SqlRepositoryProduction } from "../../../../../infra/repository/SqlRepositoryProduction";
 import { ActionRepository } from "../../../domain/ActionRepository";
 import { Actions } from "../../../domain/Actions";
 import { Status } from "../../../domain/StautsActions";
@@ -6,7 +6,7 @@ import { ActionsMapper } from "./ActionsMapper";
 import { ModelActionsRepository } from "./ModelActionsRepository";
 
 
-export class RealActionsRepository extends SqlRepository<ModelActionsRepository> implements ActionRepository{
+export class RealActionsRepository extends SqlRepositoryProduction<ModelActionsRepository> implements ActionRepository{
 
     constructor() {
         super("actions");

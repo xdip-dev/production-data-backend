@@ -15,6 +15,7 @@ import fastifyCors from "@fastify/cors";
 import { ActionNotFoundError } from "../../app/Actions/domain/errors/ActionNotFoundError";
 import { ActionAlreadyOpennedError } from "../../app/Actions/domain/errors/ActionAlreadyOpennedError";
 import { ActionsControllerContainer } from "../../app/Actions/adapters/ActionsControllersContainer";
+import { FetchControllerContainer } from "../../app/Fetch/adapters/FetchControllerContainer";
 
 
 declare module "fastify" {
@@ -77,6 +78,7 @@ export class Server {
       .withTypeProvider<ZodTypeProvider>()
       .after(() => {
         ActionsControllerContainer.execute();
+        FetchControllerContainer.execute();
       });
 
       this.serverInstance.addHook("onRoute", (routeOptions) => {

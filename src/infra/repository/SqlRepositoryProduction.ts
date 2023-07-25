@@ -1,7 +1,7 @@
-import { knexInstance } from "./KnexConfig";
+import { knexInstanceProdcution } from "./KnexConfig";
 
-export class SqlRepository<T extends {}> {
-  protected instance = knexInstance;
+export class SqlRepositoryProduction<T extends {}> {
+  protected instance = knexInstanceProdcution;
   public prefixTable = 'production_'
   protected tableName:string
 
