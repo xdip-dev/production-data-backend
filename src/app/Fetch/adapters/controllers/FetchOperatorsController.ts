@@ -1,8 +1,9 @@
 import { Server } from "../../../../infra/server/Server";
+import { FetchModelUseCase } from "../../useCase/FetchModelUseCase";
 import { FetchOperatorUseCase } from "../../useCase/FetchOperatorUseCase";
 import { FetchDependencies, FetchDependenciesContainer } from "../FetchDependenciesContainer";
 
-export class FetchDataController {
+export class FetchOperatorsController {
   constructor(private server: Server) {}
 
   public async execute(dependencies: FetchDependencies) {
@@ -14,5 +15,6 @@ export class FetchDataController {
         response.send(res);
       },
     });
+ 
   }
 }

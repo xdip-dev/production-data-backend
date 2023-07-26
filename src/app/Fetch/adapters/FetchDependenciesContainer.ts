@@ -1,9 +1,11 @@
+import { ModelsRepository } from "../domain/ports/ModelRepository";
 import { OperatorsRepository } from "../domain/ports/OperatorsRepository";
-import { InMemoryOperatorsRepository } from "./repositories/Operator/InMemoryOperatorsRepository";
+import { RealModelsRepository } from "./repositories/Model/RealModelsRepository";
 import { RealOperatorsRepository } from "./repositories/Operator/RealOperatorsRepository";
 
 export type FetchDependencies = {
     operatorsRepository: OperatorsRepository;
+    modelsRepository: ModelsRepository;
 
   } 
 
@@ -11,6 +13,7 @@ export class FetchDependenciesContainer{
     private static instance: FetchDependenciesContainer
     public dependencies: FetchDependencies = {
         operatorsRepository:new RealOperatorsRepository(),
+        modelsRepository:new RealModelsRepository()
           
     }
 

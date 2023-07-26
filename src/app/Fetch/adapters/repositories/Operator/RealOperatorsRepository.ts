@@ -18,7 +18,7 @@ export class RealOperatorsRepository
       .column(this.columns)
       .select()
       .from<ModelOperatorRepository>("public.hr_employee")
-      .limit(10);
+
 
     if (!action || action.length === 0) {
       return null;
