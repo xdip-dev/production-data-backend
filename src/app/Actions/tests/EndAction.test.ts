@@ -19,7 +19,7 @@ describe("End an action", () => {
 
     it("should change the satus to ended", async () => {
         const props = {
-            __id: 1,
+            actionId: 1,
             bonne: 100,
             rebut: 10,
         };
@@ -32,7 +32,7 @@ describe("End an action", () => {
     });
     it("should change the have a end time", async () => {
         const props = {
-            __id: 1,
+            actionId: 1,
             bonne: 100,
             rebut: 10,
         };
@@ -49,9 +49,9 @@ describe("End an action", () => {
                 .end
         );
     });
-    it("should return an error if the __id doesn't existe", async () => {
+    it("should return an error if the actionId doesn't existe", async () => {
         const props = {
-            __id: 1,
+            actionId: 1,
             bonne: 100,
             rebut: 10,
         };
@@ -66,7 +66,7 @@ describe("End an action", () => {
     });
     it("should return an error if the action is already closed", async () => {
         const props = {
-            __id: 1,
+            actionId: 1,
             bonne: 100,
             rebut: 10,
         };
@@ -104,7 +104,7 @@ describe("End an action", () => {
         "should stop an action and calculate the time passed expected : $expected seconde",
         async ({ actual, inMemory, expected }) => {
             const props = {
-                __id: 1,
+                actionId: 1,
                 bonne: 100,
                 rebut: 10,
             };
@@ -125,7 +125,7 @@ describe("End an action", () => {
     it.each([
         {
             props: {
-                __id: 1,
+                actionId: 1,
                 bonne: 100,
                 rebut: 10,
             },
@@ -136,7 +136,7 @@ describe("End an action", () => {
         },
         {
             props: {
-                __id: 1,
+                actionId: 1,
                 bonne: 100,
             },
             expected: {
@@ -146,7 +146,7 @@ describe("End an action", () => {
         },
         {
             props: {
-                __id: 1,
+                actionId: 1,
             },
             expected: {
                 bonne: 0,

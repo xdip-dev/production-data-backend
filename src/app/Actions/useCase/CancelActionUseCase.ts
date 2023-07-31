@@ -8,7 +8,7 @@ import { Either, Left } from "purify-ts";
 import { ActionAlreadyClosedError } from "../domain/errors/ActionAlreadyClosedError";
 
 interface Props {
-    __id:number,
+    actionId:number,
 }
 
 export class CancelActionUseCase implements UseCase<Props, Promise<Either<ActionNotFoundError | ActionAlreadyClosedError, Status>>> {
@@ -17,7 +17,7 @@ export class CancelActionUseCase implements UseCase<Props, Promise<Either<Action
         private dateService:DateService) {}
 
     public async execute(props:Props): Promise<Either<ActionNotFoundError | ActionAlreadyClosedError, Status>> {
-        const matchAction =await this.actionRepository.getById(props.__id)
+        const matchAction =await this.actionRepository.getById(props.actionId)
         if (!matchAction) {
             return Left(new ActionNotFoundError())
         }

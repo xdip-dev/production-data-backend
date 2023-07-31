@@ -14,7 +14,7 @@ export class RealActionsRepository extends SqlRepositoryProduction<ModelActionsR
           if (!exist)
             return this.instance.schema.createTable(this.tableName, (table) => {
                 table.increments();
-                table.integer('__id').unique();
+                table.integer('actionId').unique();
                 table.string('operatorId');
                 table.string('model');
                 table.string('action');
@@ -22,6 +22,7 @@ export class RealActionsRepository extends SqlRepositoryProduction<ModelActionsR
                 table.integer('rebut');
                 table.dateTime('start').nullable();
                 table.dateTime('end').nullable();
+                table.integer('breakNumber');
                 table.string('status');
                 table.integer('timeSeconde').nullable();
                 table.integer('productivity').nullable();
@@ -29,25 +30,33 @@ export class RealActionsRepository extends SqlRepositoryProduction<ModelActionsR
         });
       }
 
+    public async getLastActionId(): Promise<number | null> {
+        const matchAction = await this.getTable<ModelActionsRepository>().orderBy('actionId','desc').first()
+        if (!matchAction) {
+            return null
+        }
+        return matchAction.actionId
+    }
+
     public async save(props: Actions): Promise<void> {
-        const matchAction = await this.getTable<ModelActionsRepository>().where({__id:props.toState().__id}).first()
+        const matchAction = await this.getTable<ModelActionsRepository>().where({actionId:props.toState().actionId}).first()
 
         if (matchAction) {
             return await this.getTable<ModelActionsRepository>()
-                .where({__id:props.toState().__id})
+                .where({actionId:props.toState().actionId})
                 .update(ActionsMapper.toRepository(props))
         }
         return this.getTable<ModelActionsRepository>().insert(ActionsMapper.toRepository(props))
     }
     public async getLastActionByOperatorId(operatorId: string): Promise<Actions | null> {
-        const matchAction = await this.getTable<ModelActionsRepository>().where({operatorId:operatorId}).orderBy('__id','desc').first()
+        const matchAction = await this.getTable<ModelActionsRepository>().where({operatorId:operatorId}).orderBy('actionId','desc').first()
         if (!matchAction) {
             return null
         }
         return ActionsMapper.toDomain(matchAction)
     }
-    public async getById(__id: number): Promise<Actions | null> {
-        const matchAction = await this.getTable<ModelActionsRepository>().where({__id:__id}).first()
+    public async getById(actionId: number): Promise<Actions | null> {
+        const matchAction = await this.getTable<ModelActionsRepository>().where({actionId:actionId}).first()
         if (!matchAction) {
             return null
         }

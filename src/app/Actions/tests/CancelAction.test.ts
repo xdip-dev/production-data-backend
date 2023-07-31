@@ -24,7 +24,7 @@ describe("Production Management ASM", () => {
         ];
 
         await new CancelActionUseCase(actionRepository,dateService).execute({
-            __id: 1,
+            actionId: 1,
         });
 
 
@@ -38,7 +38,7 @@ describe("Production Management ASM", () => {
 
     it('should throw an error if Id not found',async() => {
         const props = {
-            __id: 1,
+            actionId: 1,
         };
 
         actionRepository.datas = [
@@ -51,7 +51,7 @@ describe("Production Management ASM", () => {
     })
     it('should throw an error if action is already closed',async() => {
         const props = {
-            __id: 1,
+            actionId: 1,
         };
 
         actionRepository.datas = [

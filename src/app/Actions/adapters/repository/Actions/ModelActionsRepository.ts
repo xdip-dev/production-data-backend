@@ -1,7 +1,7 @@
 import { Status } from "../../../domain/StautsActions";
 
 export interface ModelActionsRepository {
-    __id:number,
+    actionId:number,
     operatorId:string,
     action:string,
     model:string,
@@ -12,5 +12,6 @@ export interface ModelActionsRepository {
     status:Status,
     timeSeconde:number|null,
     productivity: number | null;
+    breakNumber:number,
 
 }

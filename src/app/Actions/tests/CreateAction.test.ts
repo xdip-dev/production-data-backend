@@ -55,8 +55,8 @@ describe("Production Management", () => {
         dateService.nowDate = new Date(2022,6,6)
 
         actionRepository.datas = [
-            ActionsMapper.toRepository(new ActionBuilder().withStatus(Status.ENDED).build()),
-            ActionsMapper.toRepository(new ActionBuilder().withStatus(Status.CANCELED).build()),
+            ActionsMapper.toRepository(new ActionBuilder().withId(1).withStatus(Status.ENDED).build()),
+            ActionsMapper.toRepository(new ActionBuilder().withId(2).withStatus(Status.CANCELED).build()),
         ];
         const sut = await new CreateActionUseCase(actionRepository,dateService,idGenerator).execute({
             operatorId: "xxx",
@@ -64,7 +64,7 @@ describe("Production Management", () => {
             model: "ref",
         });
 
-        expect(actionRepository.savedWith[0]).toEqual(new ActionBuilder().withStart(dateService.now()).build())
+        expect(actionRepository.savedWith[0]).toEqual(new ActionBuilder().withId(3).withStart(dateService.now()).build())
     });
  
 });

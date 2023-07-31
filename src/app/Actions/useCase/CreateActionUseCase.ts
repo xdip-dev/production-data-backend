@@ -23,8 +23,16 @@ export class CreateActionUseCase
     ) {}
 
     public async execute(props: Props): Promise<Either<ActionAlreadyOpennedError, string>> {
+        const lastIdRepository = await this.actionRepository.getLastActionId();
+        let id:number
+        if(!lastIdRepository){
+            id = 1
+        } else {
+            id = lastIdRepository + 1
+        }
+
         const actionCreated = Actions.create({
-            __id: await this.idGenerator.generateId(),
+            actionId: id,
             operatorId: props.operatorId,
             model: props.model,
             action: props.action,
@@ -35,11 +43,11 @@ export class CreateActionUseCase
         );
 
         if (actionExistingForOperator?.toState().status === Status.STARTED) {
-            return Left(new ActionAlreadyOpennedError(actionExistingForOperator.toState().__id));
+            return Left(new ActionAlreadyOpennedError(actionExistingForOperator.toState().actionId));
         }
 
         await this.actionRepository.save(actionCreated);
 
-        return Right(`Action created id :${actionCreated.toState().__id.toString()}`);
+        return Right(`Action created id :${actionCreated.toState().actionId.toString()}`);
     }
 }

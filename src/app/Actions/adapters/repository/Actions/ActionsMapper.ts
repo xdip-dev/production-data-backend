@@ -5,7 +5,7 @@ import { ModelActionsRepository } from "./ModelActionsRepository";
 export class ActionsMapper {
   public static toDomain(props: ModelActionsRepository): Actions {
     return Actions.fromState({
-      __id:props.__id,
+      actionId:props.actionId,
         operatorId:props.operatorId,
         action:props.action,
         model:props.model,
@@ -16,6 +16,7 @@ export class ActionsMapper {
         status:props.status,
         timeSeconde:props.timeSeconde,
         productivity:props.productivity,
+        breakNumber:props.breakNumber,
 
         
 
@@ -24,7 +25,7 @@ export class ActionsMapper {
   public static toRepository(props: Actions): ModelActionsRepository {
     const state = props.toState();
     return {
-      __id: state.__id,
+      actionId: state.actionId,
       operatorId: state.operatorId,
       action: state.action,
       model: state.model,
@@ -35,6 +36,7 @@ export class ActionsMapper {
       status: state.status,
       timeSeconde: state.timeSeconde,
       productivity: state.productivity,
+      breakNumber:state.breakNumber,
     };
   }
 }

@@ -5,12 +5,12 @@ import { Status } from "./StautsActions";
 interface Props {}
 
 export class ActionBuilder {
-
+    
     private data: Actions;
 
     constructor() {
         this.data = Actions.fromState({
-            __id: 1,
+            actionId: 1,
             operatorId: "xxx",
             action: "asm",
             model: "ref",
@@ -20,7 +20,8 @@ export class ActionBuilder {
             end: null,
             status: Status.STARTED,
             timeSeconde: null,
-            productivity:null
+            productivity:null,
+            breakNumber:0,
         });
     }
 
@@ -31,10 +32,10 @@ export class ActionBuilder {
         });
         return this;
     }
-    withId(__id: number) {
+    withId(actionId: number) {
         this.data = Actions.fromState({
             ...this.data.toState(),
-            __id,
+            actionId,
         });
         return this;
     }
@@ -81,15 +82,22 @@ export class ActionBuilder {
         })
         return this
     }
-
+    
     withProductivity(productivity:number | null) {
         this.data=Actions.fromState({
             ...this.data.toState(),
             productivity,
         })
         return this
-      }
-
+    }
+    
+    withBreakNumber(breakNumber: number) {
+        this.data=Actions.fromState({
+            ...this.data.toState(),
+            breakNumber,
+        })
+        return this
+    }
     build(): Actions {
         return this.data;
     }

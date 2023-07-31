@@ -7,52 +7,63 @@ import { ActionNotFoundError } from "../domain/errors/ActionNotFoundError";
 
 let actionRepository: InMemoryActionsRepository;
 let dateService: InMemoryDateService;
-describe('Productivity calcul',() => {
+describe("Productivity calcul", () => {
+	beforeEach(() => {
+		actionRepository = new InMemoryActionsRepository();
+		dateService = new InMemoryDateService();
+	});
 
-    beforeEach(() => {
-        actionRepository = new InMemoryActionsRepository();
-        dateService = new InMemoryDateService();
-    });
+	it.each([
+		{ time: 5000, bonne: 10, rebut: 10, breakNumber: 0, expected: 250 },
+		{ time: 13542, bonne: 500, rebut: 23, breakNumber: 3, expected: 21 },
+		{ time: 3, bonne: 500, rebut: 23, breakNumber: 0, expected: 0 },
+		{ time: 90000, bonne: 1, rebut: 1, breakNumber: 0, expected: 45000 },
+		{ time: 5000, bonne: 0, rebut: 10, breakNumber: 0, expected: 500 },
+		{ time: 5000, bonne: 10, rebut: 0, breakNumber: 0, expected: 500 },
+		{ time: 0, bonne: 10, rebut: 10, breakNumber: 0, expected: 0 },
+		{ time: 0, bonne: 10, rebut: 10, breakNumber: 1, expected: null },
+		{ time: null, bonne: 10, rebut: 10, breakNumber: 0, expected: null },
+		{ time: 5000, bonne: 0, rebut: 0, breakNumber: 0, expected: null },
+	])(
+		"should calculate the productivity based on the time passed and the bonne pieces $time,$bonne,$rebut",
+		async ({ time, bonne, rebut, breakNumber, expected }) => {
+			const props = {
+				actionId: 1,
+			};
+			actionRepository.datas = [
+				ActionsMapper.toRepository(
+					new ActionBuilder()
+						.withBonne(bonne)
+						.withRebut(rebut)
+						.withTimeSeconde(time)
+						.withBreakNumber(breakNumber)
+						.build()
+				),
+			];
 
-  it.each([
-    {time:500,bonne:100,rebut:10},
-    {time:900,bonne:0,rebut:10},
-    {time:500,bonne:100,rebut:0},
-    {time:0,bonne:100,rebut:100},
-    {time:0,bonne:0,rebut:0},
-  ])('should calculate the productivity based on the time passed and the bonne pieces $time,$bonne,$rebut',async ({time,bonne,rebut}) => {
-    const props = {
-        __id:1
-    }
-    const expected = (bonne+rebut) >0 ? Math.round(time/(bonne+rebut)) : null
-    actionRepository.datas = [ActionsMapper.toRepository(new ActionBuilder()
-      .withBonne(bonne)
-      .withRebut(rebut)
-      .withTimeSeconde(time)
-      .build()),];
+			await new ProductivityCalculationUseCase(actionRepository).execute(props);
 
-    await new ProductivityCalculationUseCase(actionRepository).execute(props)
+			expect(actionRepository.savedWith[0]).toEqual(
+				new ActionBuilder()
+					.withProductivity(expected)
+					.withBonne(bonne)
+					.withRebut(rebut)
+					.withBreakNumber(breakNumber)
+					.withTimeSeconde(time)
+					.build()
+			);
+		}
+	);
 
-    expect(actionRepository.savedWith[0])
-      .toEqual(new ActionBuilder().withProductivity(expected)
-        .withBonne(bonne)
-        .withRebut(rebut)
-        .withTimeSeconde(time)
-        .build())
-  })
+	it("should return an Error if the Id doesnt exist", async () => {
+		const props = {
+			actionId: 1,
+		};
 
-  it('should return an Error if the Id doesnt exist',async() => {
-          
-    const props = {
-      __id: 1,
-  };
+		actionRepository.datas = [ActionsMapper.toRepository(new ActionBuilder().withId(2).build())];
 
-  actionRepository.datas = [
-      ActionsMapper.toRepository(new ActionBuilder().withId(2).build()),
-  ];
+		const sut = await new ProductivityCalculationUseCase(actionRepository).execute(props);
 
-  const sut = await new ProductivityCalculationUseCase(actionRepository).execute(props)
-  
-  expect(sut).toEqual(new ActionNotFoundError())
-  })
-})
+		expect(sut).toEqual(new ActionNotFoundError());
+	});
+});
