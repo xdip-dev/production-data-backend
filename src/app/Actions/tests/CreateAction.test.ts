@@ -6,12 +6,13 @@ import { ActionBuilder } from "../domain/ActionBuilder";
 import { InMemoryDateService } from "../../shared/date/InMemoryDateService";
 import { IdGenerator } from "../../shared/id-generator/IdGenerator";
 import { InMemoryIdGenerator } from "../../shared/id-generator/InMemoryIdGenerator";
+import { Status } from "../domain/StautsActions";
 
 let actionRepository:InMemoryActionsRepository
 let dateService:InMemoryDateService
 let idGenerator:InMemoryIdGenerator
 
-describe("Production Management ASM", () => {
+describe("Production Management", () => {
     beforeEach(() => {
         actionRepository=new InMemoryActionsRepository()
         dateService=new InMemoryDateService()
@@ -27,7 +28,7 @@ describe("Production Management ASM", () => {
         });
 
 
-        expect(actionRepository.savedWith[0]).toEqual(new ActionBuilder().withStart(new Date(2022,6,6)).build())
+        expect(actionRepository.savedWith[0]).toEqual(new ActionBuilder().withStart(dateService.now()).build())
         
     });
     it("should save only once the data on creation", async () => {
@@ -40,7 +41,7 @@ describe("Production Management ASM", () => {
         expect(actionRepository.savedWith.length).toEqual(1);
     });
 
-    it("should throw an error if an action is already started", async () => {
+    it("should throw an error if the last action is already started", async () => {
 
         actionRepository.datas = [ActionsMapper.toRepository(new ActionBuilder().build())];
         const sut = await new CreateActionUseCase(actionRepository,dateService,idGenerator).execute({
@@ -49,6 +50,21 @@ describe("Production Management ASM", () => {
             model: "ref",
         });
         expect(sut.extract()).toEqual(new ActionAlreadyOpennedError(1));
+    });
+    it("should NOT throw an error if the last action is not started", async () => {
+        dateService.nowDate = new Date(2022,6,6)
+
+        actionRepository.datas = [
+            ActionsMapper.toRepository(new ActionBuilder().withStatus(Status.ENDED).build()),
+            ActionsMapper.toRepository(new ActionBuilder().withStatus(Status.CANCELED).build()),
+        ];
+        const sut = await new CreateActionUseCase(actionRepository,dateService,idGenerator).execute({
+            operatorId: "xxx",
+            action: "asm",
+            model: "ref",
+        });
+
+        expect(actionRepository.savedWith[0]).toEqual(new ActionBuilder().withStart(dateService.now()).build())
     });
  
 });

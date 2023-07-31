@@ -20,8 +20,8 @@ export class RealActionsRepository extends SqlRepositoryProduction<ModelActionsR
                 table.string('action');
                 table.integer('bonne');
                 table.integer('rebut');
-                table.date('start').nullable();
-                table.date('end').nullable();
+                table.dateTime('start').nullable();
+                table.dateTime('end').nullable();
                 table.string('status');
                 table.integer('timeSeconde').nullable();
                 table.integer('productivity').nullable();
@@ -39,8 +39,8 @@ export class RealActionsRepository extends SqlRepositoryProduction<ModelActionsR
         }
         return this.getTable<ModelActionsRepository>().insert(ActionsMapper.toRepository(props))
     }
-    public async getOpenActionByOperatorId(operatorId: string): Promise<Actions | null> {
-        const matchAction = await this.getTable<ModelActionsRepository>().where({operatorId:operatorId,status:Status.STARTED}).first()
+    public async getLastActionByOperatorId(operatorId: string): Promise<Actions | null> {
+        const matchAction = await this.getTable<ModelActionsRepository>().where({operatorId:operatorId}).orderBy('__id','desc').first()
         if (!matchAction) {
             return null
         }

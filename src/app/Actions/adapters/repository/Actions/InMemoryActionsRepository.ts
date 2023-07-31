@@ -13,13 +13,21 @@ export class InMemoryActionsRepository implements ActionRepository {
         this.savedWith.push(props);
     }
 
-    public async getOpenActionByOperatorId(operatorId: string): Promise<Actions | null> {
-        const action = this.datas.find(
-            (data) => data.operatorId === operatorId && data.status === Status.STARTED);
-        if (!action) {
+    public async getLastActionByOperatorId(operatorId: string): Promise<Actions | null> {
+        let matchingAction = null
+        let highestId = 0
+
+        for (const data of this.datas) {
+            if (data.operatorId == operatorId && data.__id > highestId) {
+                matchingAction = data
+                highestId = data.__id
+            }
+        }
+
+        if (!matchingAction) {
             return null;
         }
-        return ActionsMapper.toDomain(action);
+        return ActionsMapper.toDomain(matchingAction);
     }
 
     public async getById(id: number): Promise<Actions | null> {

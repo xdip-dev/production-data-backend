@@ -7,6 +7,7 @@ import { InMemoryActionsRepository } from "../repository/Actions/InMemoryActions
 import { ActionsMapper } from "../repository/Actions/ActionsMapper";
 import { ActionBuilder } from "../../domain/ActionBuilder";
 import { InMemoryIdGenerator } from "../../../shared/id-generator/InMemoryIdGenerator";
+import { Status } from "../../domain/StautsActions";
 
 export class CreateActionController {
     constructor(private server: Server) {}
@@ -22,11 +23,12 @@ export class CreateActionController {
         },
         handler: async (request, response) => {
 
-          let inMemoryRepo = new InMemoryActionsRepository()
-          inMemoryRepo.datas = [
-            ActionsMapper.toRepository(new ActionBuilder().withId(2).build()),
-        ];
-
+        //   let inMemoryRepo = new InMemoryActionsRepository()
+        //   inMemoryRepo.datas = [
+        //     ActionsMapper.toRepository(new ActionBuilder().withId(1).withOperatorId("xxx").withStatus(Status.ENDED).build()),
+        //     ActionsMapper.toRepository(new ActionBuilder().withId(2).withOperatorId("xxx").withStatus(Status.STARTED).build()),
+        //     ActionsMapper.toRepository(new ActionBuilder().withId(3).withOperatorId("yyy").withStatus(Status.STARTED).build()),
+        // ];
           
           const res = await new CreateActionUseCase(dependencies.actionRepository,dependencies.dateService,dependencies.idGenerator).execute(request.body);
   

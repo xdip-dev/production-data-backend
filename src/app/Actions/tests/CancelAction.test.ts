@@ -30,7 +30,7 @@ describe("Production Management ASM", () => {
 
         expect(actionRepository.savedWith[0])
             .toEqual(new ActionBuilder().withStatus(Status.CANCELED)
-                .withEnd(new Date(2023, 6, 6,15))
+                .withEnd(dateService.now())
                 .withProductivity(null)
                 .withTimeSeconde(null)
                 .build())

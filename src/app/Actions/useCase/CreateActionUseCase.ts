@@ -5,6 +5,7 @@ import { ActionRepository } from "../domain/ActionRepository";
 import { UseCase } from "../../shared/UseCase";
 import { DateService } from "../../shared/date/DateService";
 import { IdGenerator } from "../../shared/id-generator/IdGenerator";
+import { Status } from "../domain/StautsActions";
 
 interface Props {
     operatorId: string;
@@ -29,15 +30,16 @@ export class CreateActionUseCase
             action: props.action,
             dateService: this.dateService,
         });
-        const actionExistingForOperator = await this.actionRepository.getOpenActionByOperatorId(
+        const actionExistingForOperator = await this.actionRepository.getLastActionByOperatorId(
             props.operatorId
         );
-        if (actionExistingForOperator) {
+
+        if (actionExistingForOperator?.toState().status === Status.STARTED) {
             return Left(new ActionAlreadyOpennedError(actionExistingForOperator.toState().__id));
         }
 
         await this.actionRepository.save(actionCreated);
 
-        return Right(actionCreated.toState().__id.toString());
+        return Right(`Action created id :${actionCreated.toState().__id.toString()}`);
     }
 }

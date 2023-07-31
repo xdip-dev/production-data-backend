@@ -1,3 +1,3 @@
 export interface UseCase<S, T> {
-    execute(params: S, ...props: any): T;
+    execute(props: S, ...param: any): T;
   }

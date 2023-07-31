@@ -21,11 +21,11 @@ export class EndActionController {
         },
         handler: async (request, response) => {
 
-          let inMemoryRepo = new InMemoryActionsRepository()
-          inMemoryRepo.datas = [
-            ActionsMapper.toRepository(new ActionBuilder().withId(2).build()),
-            ActionsMapper.toRepository(new ActionBuilder().withId(3).withEnd(new Date()).build()),
-        ];
+        //   let inMemoryRepo = new InMemoryActionsRepository()
+        //   inMemoryRepo.datas = [
+        //     ActionsMapper.toRepository(new ActionBuilder().withId(2).build()),
+        //     ActionsMapper.toRepository(new ActionBuilder().withId(3).withEnd(new Date()).build()),
+        // ];
           const res= await new EndActionUseCase(dependencies.actionRepository,dependencies.dateService).execute(request.body);
   
           res.caseOf({

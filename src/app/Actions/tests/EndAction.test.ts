@@ -43,7 +43,7 @@ describe("End an action", () => {
         await new EndActionUseCase(actionRepository, dateService).execute(props);
 
         expect(actionRepository.savedWith[0]?.toState().end)
-            .toEqual(new ActionBuilder().withEnd(new Date(2023, 6, 6))
+            .toEqual(new ActionBuilder().withEnd(dateService.now())
                 .build()
                 .toState()
                 .end
@@ -108,6 +108,8 @@ describe("End an action", () => {
                 bonne: 100,
                 rebut: 10,
             };
+            // const dateTime = inMemory.getTime()
+            // const diff = inMemory.getTimezoneOffset()
 
             dateService.nowDate = actual;
             actionRepository.datas = [
@@ -163,7 +165,7 @@ describe("End an action", () => {
                 new ActionBuilder()
                     .withBonne(expected.bonne)
                     .withRebut(expected.rebut)
-                    .withEnd(new Date(2023, 6, 6, 15))
+                    .withEnd(dateService.now())
                     .withStatus(Status.ENDED)
                     .build()
             );
