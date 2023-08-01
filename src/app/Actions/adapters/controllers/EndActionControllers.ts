@@ -13,11 +13,7 @@ export class EndActionController {
     public async execute(dependencies: ActionsDependencies) {
       this.server.post("/end-action", {
         schema: {
-          body: EndActionSchema,
-          response: {
-            200: zod.undefined(),
-            403: zod.string(),
-          },
+          body: EndActionSchema
         },
         handler: async (request, response) => {
 
@@ -30,10 +26,10 @@ export class EndActionController {
   
           res.caseOf({
             Left: (value) => {
-              response.code(403).send(value.message)
+              throw value
             },
             Right: (value) => {
-              response.send(value)
+              response.send(JSON.stringify(value))
             },
           })
         },

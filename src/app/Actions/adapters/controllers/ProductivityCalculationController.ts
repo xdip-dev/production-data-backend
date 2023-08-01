@@ -14,11 +14,7 @@ export class ProductivityCalculationController {
     public async execute(dependencies: ActionsDependencies) {
       this.server.post("/set-productivity", {
         schema: {
-          body: ProductivityCalculationSchema,
-          response: {
-            200: Zod.undefined(),
-            403: Zod.string(),
-          },
+          body: ProductivityCalculationSchema
         },
         handler: async (request, response) => {
 
@@ -29,7 +25,7 @@ export class ProductivityCalculationController {
           const res = await new ProductivityCalculationUseCase(dependencies.actionRepository).execute(request.body);
 
           if (res) {
-            response.code(403).send(res.message)
+            throw res
           } else {
             response.send()
           }

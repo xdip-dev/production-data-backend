@@ -16,10 +16,6 @@ export class CreateActionController {
       this.server.post("/create", {
         schema: {
           body: CreateActionSchema,
-          response: {
-            200: zod.undefined(),
-            403: zod.string(),
-          },
         },
         handler: async (request, response) => {
 
@@ -34,10 +30,10 @@ export class CreateActionController {
   
           res.caseOf({
             Left: (value) => {
-              response.code(403).send(value.message)
+              throw value
             },
             Right: (value) => {
-              response.send(value)
+              response.send(JSON.stringify(value))
             },
           })
         },

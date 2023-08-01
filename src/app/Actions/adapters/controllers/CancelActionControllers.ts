@@ -14,10 +14,6 @@ export class CancelActionControllers {
       this.server.post("/cancel", {
         schema: {
           body: CancelActionSchema ,
-          response: {
-            200: Zod.undefined(),
-            403: Zod.string(),
-          },
         },
         handler: async (request, response) => {
 
@@ -30,10 +26,10 @@ export class CancelActionControllers {
 
           res.caseOf({
             Left: (value) => {
-              response.code(403).send(value.message)
+              throw value
             },
             Right: (value) => {
-              response.send(value)
+              response.send(JSON.stringify(value))
             },
           })
         },

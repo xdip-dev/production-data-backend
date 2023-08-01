@@ -65,7 +65,7 @@ export class Server {
           response.status(404).send(error);
         }
         if (error instanceof ActionAlreadyOpennedError) {
-          response.status(401).send(error);
+          response.status(400).send(error);
         }
         if (error instanceof ZodError) {
           response.status(400).send({
@@ -74,6 +74,7 @@ export class Server {
           });
         }
         response.status(500).send(error);
+
       })
       .withTypeProvider<ZodTypeProvider>()
       .after(() => {

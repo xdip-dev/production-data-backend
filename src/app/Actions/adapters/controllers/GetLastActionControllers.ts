@@ -5,6 +5,7 @@ import { GetLastActionSchema } from "../schema/GetLastActionSchema";
 import { GetLastActionUseCase } from "../../useCase/GetLastActionUseCase";
 import { type } from "os";
 import { Actions } from "../../domain/Actions";
+import { ActionNotFoundError } from "../../domain/errors/ActionNotFoundError";
 
 export class GetLastActionControllers {
     constructor(private server: Server) {}
@@ -13,10 +14,6 @@ export class GetLastActionControllers {
         this.server.post("/get-last-action", {
             schema: {
               body: GetLastActionSchema,
-              response: {
-                200: zod.undefined(),
-                403: zod.string(),
-              },
             },
             handler: async (request, response) => {
     
@@ -31,7 +28,7 @@ export class GetLastActionControllers {
                   response.send(JSON.stringify(res.toState()))
                 }
                 else{
-                  response.code(403).send(res.message)
+                  throw res
                 }
             },
           });
