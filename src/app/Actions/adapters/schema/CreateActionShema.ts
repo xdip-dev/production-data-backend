@@ -1,7 +1,7 @@
 import zod from "zod";
 
 export const CreateActionSchema = zod.object({
-  operatorId: zod.string(),
+  operatorId: zod.number(),
   action: zod.string(),
   model: zod.string(),
 });

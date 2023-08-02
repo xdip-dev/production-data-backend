@@ -2,7 +2,7 @@ import { Status } from "../../../domain/StautsActions";
 
 export interface ModelActionsRepository {
     actionId:number,
-    operatorId:string,
+    operatorId:number,
     action:string,
     model:string,
     bonne:number ,

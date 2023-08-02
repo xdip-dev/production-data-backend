@@ -8,7 +8,7 @@ import { IdGenerator } from "../../shared/id-generator/IdGenerator";
 import { Status } from "../domain/StautsActions";
 
 interface Props {
-    operatorId: string;
+    operatorId: number;
     action: string;
     model: string;
 }

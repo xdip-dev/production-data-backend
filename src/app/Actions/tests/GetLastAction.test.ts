@@ -12,26 +12,26 @@ describe('last Action UseCase',() => {
     })
   it('should give back the last action',async() => {
     const props = {
-        operatorId: "xxx",
+        operatorId: 1244,
       }
       actionRepository.datas = [
-        ActionsMapper.toRepository(new ActionBuilder().withOperatorId('xxx').withId(1).build()),
-        ActionsMapper.toRepository(new ActionBuilder().withOperatorId('xxx').withId(15).build()),
-        ActionsMapper.toRepository(new ActionBuilder().withOperatorId('xxx').withId(2).build()),
+        ActionsMapper.toRepository(new ActionBuilder().withOperatorId(1244).withId(1).build()),
+        ActionsMapper.toRepository(new ActionBuilder().withOperatorId(1244).withId(15).build()),
+        ActionsMapper.toRepository(new ActionBuilder().withOperatorId(1244).withId(2).build()),
       ];
       
       const actual = await new GetLastActionUseCase(actionRepository).execute(props);
 
-      expect(actual).toEqual(new ActionBuilder().withOperatorId('xxx').withId(15).build())
+      expect(actual).toEqual(new ActionBuilder().withOperatorId(1244).withId(15).build())
     })
   it('should throw an error if no action found',async() => {
     const props = {
-        operatorId: "xxx",
+        operatorId: 1224,
       }
       actionRepository.datas = [
-        ActionsMapper.toRepository(new ActionBuilder().withOperatorId('yyy').withId(1).build()),
-        ActionsMapper.toRepository(new ActionBuilder().withOperatorId('yyy').withId(15).build()),
-        ActionsMapper.toRepository(new ActionBuilder().withOperatorId('yyy').withId(2).build()),
+        ActionsMapper.toRepository(new ActionBuilder().withOperatorId(1569).withId(1).build()),
+        ActionsMapper.toRepository(new ActionBuilder().withOperatorId(1569).withId(15).build()),
+        ActionsMapper.toRepository(new ActionBuilder().withOperatorId(1569).withId(2).build()),
       ];
       
       const actual = await new GetLastActionUseCase(actionRepository).execute(props);

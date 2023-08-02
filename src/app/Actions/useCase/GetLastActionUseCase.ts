@@ -4,7 +4,7 @@ import { Actions } from "../domain/Actions";
 import { ActionNotFoundError } from "../domain/errors/ActionNotFoundError";
 
 interface Props {
-    operatorId:string
+    operatorId:number
 }
 
 export class GetLastActionUseCase implements UseCase<Props,Promise<Actions | ActionNotFoundError>> {

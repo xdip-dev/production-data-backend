@@ -15,7 +15,7 @@ export class RealActionsRepository extends SqlRepositoryProduction<ModelActionsR
             return this.instance.schema.createTable(this.tableName, (table) => {
                 table.increments();
                 table.integer('actionId').unique();
-                table.string('operatorId');
+                table.integer('operatorId');
                 table.string('model');
                 table.string('action');
                 table.integer('bonne');
@@ -48,7 +48,7 @@ export class RealActionsRepository extends SqlRepositoryProduction<ModelActionsR
         }
         return this.getTable<ModelActionsRepository>().insert(ActionsMapper.toRepository(props))
     }
-    public async getLastActionByOperatorId(operatorId: string): Promise<Actions | null> {
+    public async getLastActionByOperatorId(operatorId: number): Promise<Actions | null> {
         const matchAction = await this.getTable<ModelActionsRepository>().where({operatorId:operatorId}).orderBy('actionId','desc').first()
         if (!matchAction) {
             return null

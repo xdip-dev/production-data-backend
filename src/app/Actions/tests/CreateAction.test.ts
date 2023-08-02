@@ -22,7 +22,7 @@ describe("Production Management", () => {
         dateService.nowDate = new Date(2022,6,6)
 
         await new CreateActionUseCase(actionRepository,dateService,idGenerator).execute({
-            operatorId: "xxx",
+            operatorId: 1244,
             action: "asm",
             model: "ref",
         });
@@ -33,7 +33,7 @@ describe("Production Management", () => {
     });
     it("should save only once the data on creation", async () => {
         await new CreateActionUseCase(actionRepository,dateService,idGenerator).execute({
-            operatorId: "xxx",
+            operatorId: 1244,
             action: "asm",
             model: "ref",
         });
@@ -45,7 +45,7 @@ describe("Production Management", () => {
 
         actionRepository.datas = [ActionsMapper.toRepository(new ActionBuilder().build())];
         const sut = await new CreateActionUseCase(actionRepository,dateService,idGenerator).execute({
-            operatorId: "xxx",
+            operatorId: 1244,
             action: "asm",
             model: "ref",
         });
@@ -59,7 +59,7 @@ describe("Production Management", () => {
             ActionsMapper.toRepository(new ActionBuilder().withId(2).withStatus(Status.CANCELED).build()),
         ];
         const sut = await new CreateActionUseCase(actionRepository,dateService,idGenerator).execute({
-            operatorId: "xxx",
+            operatorId: 1244,
             action: "asm",
             model: "ref",
         });

@@ -11,7 +11,7 @@ export class ActionBuilder {
     constructor() {
         this.data = Actions.fromState({
             actionId: 1,
-            operatorId: "xxx",
+            operatorId: 1244,
             action: "asm",
             model: "ref",
             bonne: 0,
@@ -40,7 +40,7 @@ export class ActionBuilder {
         return this;
     }
 
-    withOperatorId(operatorId:string){
+    withOperatorId(operatorId:number){
         this.data=Actions.fromState({
             ...this.data.toState(),
             operatorId

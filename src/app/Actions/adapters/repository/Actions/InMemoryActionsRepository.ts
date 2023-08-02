@@ -30,12 +30,12 @@ export class InMemoryActionsRepository implements ActionRepository {
         return highestId;
     }
 
-    public async getLastActionByOperatorId(operatorId: string): Promise<Actions | null> {
+    public async getLastActionByOperatorId(operatorId: number): Promise<Actions | null> {
         let matchingAction = null
         let highestId = 0
 
         for (const data of this.datas) {
-            if (data.operatorId == operatorId && data.actionId > highestId) {
+            if (data.operatorId === operatorId && data.actionId > highestId) {
                 matchingAction = data
                 highestId = data.actionId
             }

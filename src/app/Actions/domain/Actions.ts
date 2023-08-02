@@ -7,7 +7,7 @@ export class Actions {
 	constructor(
 		private readonly props: {
 			actionId: number;
-			operatorId: string;
+			operatorId: number;
 			action: string;
 			model: string;
 			bonne: number;
@@ -57,7 +57,7 @@ export class Actions {
 
 	public static create(props: {
 		actionId: number;
-		operatorId: string;
+		operatorId: number;
 		action: string;
 		model: string;
 		dateService: DateService;
