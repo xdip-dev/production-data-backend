@@ -3,7 +3,7 @@ import { ActionsMapper } from "../adapters/repository/Actions/ActionsMapper";
 import { ActionBuilder } from "../domain/ActionBuilder";
 import { InMemoryDateService } from "../../shared/date/InMemoryDateService";
 import { Status } from "../domain/StautsActions";
-import { CancelActionUseCase } from "../useCase/CancelActionUseCase";
+import { CancelActionUseCase } from "../useCase/Action/CancelActionUseCase";
 import { ActionAlreadyClosedError } from "../domain/errors/ActionAlreadyClosedError";
 import { ActionNotFoundError } from "../domain/errors/ActionNotFoundError";
 

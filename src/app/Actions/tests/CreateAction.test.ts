@@ -1,5 +1,5 @@
 import { InMemoryActionsRepository } from "../adapters/repository/Actions/InMemoryActionsRepository";
-import { CreateActionUseCase } from "../useCase/CreateActionUseCase";
+import { CreateActionUseCase } from "../useCase/Action/CreateActionUseCase";
 import { ActionAlreadyOpennedError } from "../domain/errors/ActionAlreadyOpennedError";
 import { ActionsMapper } from "../adapters/repository/Actions/ActionsMapper";
 import { ActionBuilder } from "../domain/ActionBuilder";
@@ -29,6 +29,20 @@ describe("Production Management", () => {
 
 
         expect(actionRepository.savedWith[0]).toEqual(new ActionBuilder().withStart(dateService.now()).build())
+        
+    });
+    it("should write the optional argument of previousAction", async () => {
+        dateService.nowDate = new Date(2022,6,6)
+
+        await new CreateActionUseCase(actionRepository,dateService,idGenerator).execute({
+            operatorId: 1244,
+            action: "asm",
+            model: "ref",
+            previousAction:1243
+        });
+
+
+        expect(actionRepository.savedWith[0]).toEqual(new ActionBuilder().withPreviousAction(1243).withStart(dateService.now()).build())
         
     });
     it("should save only once the data on creation", async () => {

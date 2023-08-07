@@ -2,7 +2,7 @@ import { InMemoryDateService } from "../../shared/date/InMemoryDateService";
 import { ActionsMapper } from "../adapters/repository/Actions/ActionsMapper";
 import { InMemoryActionsRepository } from "../adapters/repository/Actions/InMemoryActionsRepository";
 import { ActionBuilder } from "../domain/ActionBuilder";
-import { SetBreakNumberUseCase } from "../useCase/SetBreakNumberUseCase";
+import { SetBreakNumberUseCase } from "../useCase/Action/SetBreakNumberUseCase";
 
 let actionRepository : InMemoryActionsRepository;
 let dateService : InMemoryDateService;

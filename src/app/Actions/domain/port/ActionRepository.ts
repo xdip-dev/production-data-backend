@@ -1,5 +1,5 @@
-import { Actions } from "./Actions";
-import { ActionNotFoundError } from "./errors/ActionNotFoundError";
+import { Actions } from "../Actions";
+import { ActionNotFoundError } from "../errors/ActionNotFoundError";
 
 export interface ActionRepository {
     save(props:Actions):Promise<void>,

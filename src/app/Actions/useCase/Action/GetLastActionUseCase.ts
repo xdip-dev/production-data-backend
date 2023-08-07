@@ -1,7 +1,7 @@
-import { UseCase } from "../../shared/UseCase";
-import { ActionRepository } from "../domain/ActionRepository";
-import { Actions } from "../domain/Actions";
-import { ActionNotFoundError } from "../domain/errors/ActionNotFoundError";
+import { UseCase } from "../../../shared/UseCase";
+import { ActionRepository } from "../../domain/port/ActionRepository";
+import { Actions } from "../../domain/Actions";
+import { ActionNotFoundError } from "../../domain/errors/ActionNotFoundError";
 
 interface Props {
     operatorId:number

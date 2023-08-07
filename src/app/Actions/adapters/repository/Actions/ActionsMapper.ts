@@ -17,7 +17,7 @@ export class ActionsMapper {
         timeSeconde:props.timeSeconde,
         productivity:props.productivity,
         breakNumber:props.breakNumber,
-
+        previousAction:props.previousAction
         
 
     });
@@ -37,6 +37,7 @@ export class ActionsMapper {
       timeSeconde: state.timeSeconde,
       productivity: state.productivity,
       breakNumber:state.breakNumber,
+      previousAction:state.previousAction
     };
   }
 }

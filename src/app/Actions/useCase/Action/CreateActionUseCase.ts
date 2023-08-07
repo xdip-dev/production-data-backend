@@ -1,16 +1,17 @@
 import { Either, Left, Right } from "purify-ts";
-import { ActionAlreadyOpennedError } from "../domain/errors/ActionAlreadyOpennedError";
-import { Actions } from "../domain/Actions";
-import { ActionRepository } from "../domain/ActionRepository";
-import { UseCase } from "../../shared/UseCase";
-import { DateService } from "../../shared/date/DateService";
-import { IdGenerator } from "../../shared/id-generator/IdGenerator";
-import { Status } from "../domain/StautsActions";
+import { ActionAlreadyOpennedError } from "../../domain/errors/ActionAlreadyOpennedError";
+import { Actions } from "../../domain/Actions";
+import { ActionRepository } from "../../domain/port/ActionRepository";
+import { UseCase } from "../../../shared/UseCase";
+import { DateService } from "../../../shared/date/DateService";
+import { IdGenerator } from "../../../shared/id-generator/IdGenerator";
+import { Status } from "../../domain/StautsActions";
 
 interface Props {
     operatorId: number;
     action: string;
     model: string;
+    previousAction?:number
 }
 
 export class CreateActionUseCase
@@ -37,6 +38,7 @@ export class CreateActionUseCase
             model: props.model,
             action: props.action,
             dateService: this.dateService,
+            previousAction:props.previousAction ? props.previousAction : null
         });
         const actionExistingForOperator = await this.actionRepository.getLastActionByOperatorId(
             props.operatorId

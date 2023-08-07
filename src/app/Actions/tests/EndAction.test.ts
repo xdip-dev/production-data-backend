@@ -1,11 +1,9 @@
 import { Status } from "../domain/StautsActions";
-import { EndActionUseCase } from "../useCase/EndActionUseCase";
+import { EndActionUseCase } from "../useCase/Action/EndActionUseCase";
 import { InMemoryActionsRepository } from "../adapters/repository/Actions/InMemoryActionsRepository";
 import { ActionsMapper } from "../adapters/repository/Actions/ActionsMapper";
 import { ActionBuilder } from "../domain/ActionBuilder";
 import { InMemoryDateService } from "../../shared/date/InMemoryDateService";
-import { boolean, date } from "purify-ts";
-import ProductivityCalculationUseCase from "../useCase/ProductivityCalculationUseCase";
 import { ActionAlreadyClosedError } from "../domain/errors/ActionAlreadyClosedError";
 import { ActionNotFoundError } from "../domain/errors/ActionNotFoundError";
 

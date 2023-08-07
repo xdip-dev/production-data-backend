@@ -11,7 +11,8 @@ export interface ModelActionsRepository {
     end:Date | null,
     status:Status,
     timeSeconde:number|null,
-    productivity: number | null;
+    productivity: number | null,
     breakNumber:number,
+    previousAction:number | null,
 
 }

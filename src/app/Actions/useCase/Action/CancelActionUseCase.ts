@@ -1,11 +1,10 @@
-import { UseCase } from "../../shared/UseCase";
-import { Actions } from "../domain/Actions";
-import { ActionRepository } from "../domain/ActionRepository";
-import { DateService } from "../../shared/date/DateService";
-import { Status } from "../domain/StautsActions";
-import { ActionNotFoundError } from "../domain/errors/ActionNotFoundError";
+import { UseCase } from "../../../shared/UseCase";
+import { ActionRepository } from "../../domain/port/ActionRepository";
+import { DateService } from "../../../shared/date/DateService";
+import { Status } from "../../domain/StautsActions";
+import { ActionNotFoundError } from "../../domain/errors/ActionNotFoundError";
 import { Either, Left } from "purify-ts";
-import { ActionAlreadyClosedError } from "../domain/errors/ActionAlreadyClosedError";
+import { ActionAlreadyClosedError } from "../../domain/errors/ActionAlreadyClosedError";
 
 interface Props {
     actionId:number,

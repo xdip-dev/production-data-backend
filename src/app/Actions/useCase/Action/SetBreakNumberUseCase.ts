@@ -1,5 +1,5 @@
-import { UseCase } from "../../shared/UseCase";
-import { ActionRepository } from "../domain/ActionRepository";
+import { UseCase } from "../../../shared/UseCase";
+import { ActionRepository } from "../../domain/port/ActionRepository";
 
 interface Props {
     actionId: number;

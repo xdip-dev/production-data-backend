@@ -2,7 +2,7 @@ import { ActionsMapper } from "../adapters/repository/Actions/ActionsMapper";
 import { InMemoryActionsRepository } from "../adapters/repository/Actions/InMemoryActionsRepository";
 import { ActionBuilder } from "../domain/ActionBuilder";
 import { InMemoryDateService } from "../../shared/date/InMemoryDateService";
-import ProductivityCalculationUseCase from "../useCase/ProductivityCalculationUseCase";
+import ProductivityCalculationUseCase from "../useCase/Action/ProductivityCalculationUseCase";
 import { ActionNotFoundError } from "../domain/errors/ActionNotFoundError";
 
 let actionRepository: InMemoryActionsRepository;

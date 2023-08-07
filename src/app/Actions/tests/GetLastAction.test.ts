@@ -2,7 +2,7 @@ import { ActionsMapper } from "../adapters/repository/Actions/ActionsMapper"
 import { InMemoryActionsRepository } from "../adapters/repository/Actions/InMemoryActionsRepository"
 import { ActionBuilder } from "../domain/ActionBuilder"
 import { ActionNotFoundError } from "../domain/errors/ActionNotFoundError"
-import { GetLastActionUseCase } from "../useCase/GetLastActionUseCase"
+import { GetLastActionUseCase } from "../useCase/Action/GetLastActionUseCase"
 
 let actionRepository:InMemoryActionsRepository
 

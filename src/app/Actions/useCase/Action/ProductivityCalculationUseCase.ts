@@ -1,6 +1,6 @@
-import { UseCase } from "../../shared/UseCase";
-import { ActionRepository } from "../domain/ActionRepository";
-import { ActionNotFoundError } from "../domain/errors/ActionNotFoundError";
+import { UseCase } from "../../../shared/UseCase";
+import { ActionRepository } from "../../domain/port/ActionRepository";
+import { ActionNotFoundError } from "../../domain/errors/ActionNotFoundError";
 import { Either, Left, Right } from "purify-ts";
 
 interface Props {

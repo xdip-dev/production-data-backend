@@ -1,5 +1,5 @@
 import { SqlRepositoryProduction } from "../../../../../infra/repository/SqlRepositoryProduction";
-import { ActionRepository } from "../../../domain/ActionRepository";
+import { ActionRepository } from "../../../domain/port/ActionRepository";
 import { Actions } from "../../../domain/Actions";
 import { Status } from "../../../domain/StautsActions";
 import { ActionsMapper } from "./ActionsMapper";
@@ -26,6 +26,7 @@ export class RealActionsRepository extends SqlRepositoryProduction<ModelActionsR
                 table.string('status');
                 table.integer('timeSeconde').nullable();
                 table.integer('productivity').nullable();
+                table.integer('previousAction').nullable();
             });
         });
       }

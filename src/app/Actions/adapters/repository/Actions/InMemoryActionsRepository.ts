@@ -1,6 +1,6 @@
 import { ActionNotFoundError } from "../../../domain/errors/ActionNotFoundError";
 import { Actions } from "../../../domain/Actions";
-import { ActionRepository } from "../../../domain/ActionRepository";
+import { ActionRepository } from "../../../domain/port/ActionRepository";
 import { Status } from "../../../domain/StautsActions";
 import { ActionsMapper } from "./ActionsMapper";
 import { ModelActionsRepository } from "./ModelActionsRepository";

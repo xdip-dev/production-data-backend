@@ -18,6 +18,7 @@ export class Actions {
 			timeSeconde: number | null;
 			productivity: number | null;
 			breakNumber: number;
+			previousAction:number | null;
 		}
 	) {}
 
@@ -35,6 +36,7 @@ export class Actions {
 			timeSeconde: this.props.timeSeconde,
 			productivity: this.props.productivity,
 			breakNumber: this.props.breakNumber,
+			previousAction:this.props.previousAction
 		};
 	}
 
@@ -52,6 +54,7 @@ export class Actions {
 			timeSeconde: state.timeSeconde,
 			productivity: state.productivity,
 			breakNumber: state.breakNumber,
+			previousAction:state.previousAction
 		});
 	}
 
@@ -61,6 +64,7 @@ export class Actions {
 		action: string;
 		model: string;
 		dateService: DateService;
+		previousAction:number|null;
 	}): Actions {
 		return new Actions({
 			actionId: props.actionId,
@@ -75,6 +79,7 @@ export class Actions {
 			timeSeconde: null,
 			productivity: null,
 			breakNumber: 0,
+			previousAction:props.previousAction
 		});
 	}
 

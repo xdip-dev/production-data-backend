@@ -22,6 +22,7 @@ export class ActionBuilder {
             timeSeconde: null,
             productivity:null,
             breakNumber:0,
+            previousAction:null
         });
     }
 
@@ -95,6 +96,14 @@ export class ActionBuilder {
         this.data=Actions.fromState({
             ...this.data.toState(),
             breakNumber,
+        })
+        return this
+    }
+
+    withPreviousAction(previousAction:number | null){
+        this.data=Actions.fromState({
+            ...this.data.toState(),
+            previousAction,
         })
         return this
     }
