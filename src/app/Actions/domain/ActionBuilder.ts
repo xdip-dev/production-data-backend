@@ -22,7 +22,8 @@ export class ActionBuilder {
             timeSeconde: null,
             productivity:null,
             breakNumber:0,
-            previousAction:null
+            previousAction:null,
+            actionProblem:null,
         });
     }
 
@@ -104,6 +105,13 @@ export class ActionBuilder {
         this.data=Actions.fromState({
             ...this.data.toState(),
             previousAction,
+        })
+        return this
+    }
+    withActionProblem(actionProblem:string | null){
+        this.data=Actions.fromState({
+            ...this.data.toState(),
+            actionProblem,
         })
         return this
     }

@@ -14,5 +14,6 @@ export interface ModelActionsRepository {
     productivity: number | null,
     breakNumber:number,
     previousAction:number | null,
+    actionProblem:string | null,
 
 }

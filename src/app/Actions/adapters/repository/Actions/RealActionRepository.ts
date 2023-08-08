@@ -27,6 +27,7 @@ export class RealActionsRepository extends SqlRepositoryProduction<ModelActionsR
                 table.integer('timeSeconde').nullable();
                 table.integer('productivity').nullable();
                 table.integer('previousAction').nullable();
+                table.string('actionProblem').nullable();
             });
         });
       }

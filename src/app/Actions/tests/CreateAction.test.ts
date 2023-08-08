@@ -45,6 +45,7 @@ describe("Production Management", () => {
         expect(actionRepository.savedWith[0]).toEqual(new ActionBuilder().withPreviousAction(1243).withStart(dateService.now()).build())
         
     });
+    
     it("should save only once the data on creation", async () => {
         await new CreateActionUseCase(actionRepository,dateService,idGenerator).execute({
             operatorId: 1244,

@@ -18,7 +18,8 @@ export class Actions {
 			timeSeconde: number | null;
 			productivity: number | null;
 			breakNumber: number;
-			previousAction:number | null;
+			previousAction: number | null;
+			actionProblem: string | null;
 		}
 	) {}
 
@@ -36,7 +37,8 @@ export class Actions {
 			timeSeconde: this.props.timeSeconde,
 			productivity: this.props.productivity,
 			breakNumber: this.props.breakNumber,
-			previousAction:this.props.previousAction
+			previousAction: this.props.previousAction,
+			actionProblem: this.props.actionProblem,
 		};
 	}
 
@@ -54,7 +56,8 @@ export class Actions {
 			timeSeconde: state.timeSeconde,
 			productivity: state.productivity,
 			breakNumber: state.breakNumber,
-			previousAction:state.previousAction
+			previousAction: state.previousAction,
+			actionProblem: state.actionProblem,
 		});
 	}
 
@@ -64,7 +67,7 @@ export class Actions {
 		action: string;
 		model: string;
 		dateService: DateService;
-		previousAction:number|null;
+		previousAction: number | null;
 	}): Actions {
 		return new Actions({
 			actionId: props.actionId,
@@ -79,7 +82,8 @@ export class Actions {
 			timeSeconde: null,
 			productivity: null,
 			breakNumber: 0,
-			previousAction:props.previousAction
+			previousAction: props.previousAction,
+			actionProblem: null,
 		});
 	}
 
@@ -87,7 +91,12 @@ export class Actions {
 		return dateService.now();
 	}
 
-	public setEndOfAction(dateService: DateService, bonne = 0, rebut = 0): Either<ActionAlreadyClosedError, Status> {
+	public setEndOfAction(
+		dateService: DateService,
+		bonne = 0,
+		rebut = 0,
+		actionProblem: string | null = null
+	): Either<ActionAlreadyClosedError, Status> {
 		if (!!this.props.end) {
 			return Left(new ActionAlreadyClosedError(this.props.actionId));
 		}
@@ -97,8 +106,9 @@ export class Actions {
 			this.props.end && this.props.start
 				? Math.round(Math.floor(this.props.end.getTime() - this.props.start.getTime()) / 1000)
 				: null;
-		this.props.bonne = bonne;
-		this.props.rebut = rebut;
+		this.props.bonne = bonne < 0 ? 0 : bonne;
+		this.props.rebut = rebut < 0 ? 0 : rebut;
+		this.props.actionProblem = actionProblem;
 
 		this.setBreakNumber();
 		this.setProductivity();

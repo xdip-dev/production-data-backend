@@ -17,9 +17,8 @@ export class ActionsMapper {
         timeSeconde:props.timeSeconde,
         productivity:props.productivity,
         breakNumber:props.breakNumber,
-        previousAction:props.previousAction
-        
-
+        previousAction:props.previousAction,
+        actionProblem:props.actionProblem,
     });
   }
   public static toRepository(props: Actions): ModelActionsRepository {
@@ -37,7 +36,8 @@ export class ActionsMapper {
       timeSeconde: state.timeSeconde,
       productivity: state.productivity,
       breakNumber:state.breakNumber,
-      previousAction:state.previousAction
+      previousAction:state.previousAction,
+      actionProblem:state.actionProblem
     };
   }
 }

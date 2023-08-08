@@ -16,6 +16,7 @@ import { ActionNotFoundError } from "../../app/Actions/domain/errors/ActionNotFo
 import { ActionAlreadyOpennedError } from "../../app/Actions/domain/errors/ActionAlreadyOpennedError";
 import { ActionsControllerContainer } from "../../app/Actions/adapters/ActionsControllersContainer";
 import { FetchControllerContainer } from "../../app/Fetch/adapters/FetchControllerContainer";
+import { PdfControllerContainer } from "../../app/Pdf/adapters/PdfControllersContainer";
 
 
 declare module "fastify" {
@@ -80,6 +81,7 @@ export class Server {
       .after(() => {
         ActionsControllerContainer.execute();
         FetchControllerContainer.execute();
+        PdfControllerContainer.execute();
       });
 
       this.serverInstance.addHook("onRoute", (routeOptions) => {

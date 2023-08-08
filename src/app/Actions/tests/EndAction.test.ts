@@ -47,6 +47,25 @@ describe("End an action", () => {
                 .end
         );
     });
+    it("should set problem if any", async () => {
+        const props = {
+            actionId: 1,
+            actionProblem:"problem"
+        };
+
+        dateService.nowDate = new Date(2023, 6, 6);
+        actionRepository.datas = [ActionsMapper.toRepository(new ActionBuilder().build())];
+
+        await new EndActionUseCase(actionRepository, dateService).execute(props);
+
+        expect(actionRepository.savedWith[0]?.toState().actionProblem)
+            .toEqual(new ActionBuilder()
+                .withActionProblem("problem")
+                .build()
+                .toState()
+                .actionProblem
+        );
+    });
     it("should return an error if the actionId doesn't existe", async () => {
         const props = {
             actionId: 1,
@@ -151,6 +170,17 @@ describe("End an action", () => {
                 rebut: 0,
             },
         },
+        {
+            props: {
+                actionId: 1,
+                bonne: -100,
+                rebut: -10,
+            },
+            expected: {
+                bonne: 0,
+                rebut: 0,
+            },
+        },
     ])(
         "qty ($props.bonne,$props.rebut) should give ($expected.bonne,$expected.rebut)",
         async ({ props, expected }) => {
@@ -169,6 +199,6 @@ describe("End an action", () => {
             );
         }
     );
-    it.todo("should take care of eventually negative value");
+    
 
 });

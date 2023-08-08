@@ -11,7 +11,7 @@ interface Props {
     operatorId: number;
     action: string;
     model: string;
-    previousAction?:number
+    previousAction?:number;
 }
 
 export class CreateActionUseCase
@@ -38,7 +38,7 @@ export class CreateActionUseCase
             model: props.model,
             action: props.action,
             dateService: this.dateService,
-            previousAction:props.previousAction ? props.previousAction : null
+            previousAction:props.previousAction ? props.previousAction : null,
         });
         const actionExistingForOperator = await this.actionRepository.getLastActionByOperatorId(
             props.operatorId
