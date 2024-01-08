@@ -10,7 +10,7 @@ export class FetchOperatorsController {
     this.server.get("/get-operators", {
       handler: async (request, response) => {
         const res = await new FetchOperatorUseCase(
-          dependencies.operatorsRepository
+          dependencies.erpRepository
         ).execute();
         response.send(res);
       },

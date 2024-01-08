@@ -1,12 +1,11 @@
-import { InMemoryModelsRepository } from "../adapters/repositories/Model/InMemoryModelsRepository";
+import { InMemoryErpRepository } from "../adapters/repositories/InMemoryErpRepository";
 import { NoDataFound } from "../domain/errors/NoDataFound";
-import { ModelsRepository } from "../domain/ports/ModelRepository";
 import { FetchModelUseCase } from "../useCase/FetchModelUseCase";
 
-let modelRepository: InMemoryModelsRepository;
+let erpRepository: InMemoryErpRepository;
 describe("Data fetching for Models", () => {
   beforeEach(() => {
-    modelRepository = new InMemoryModelsRepository();
+    erpRepository = new InMemoryErpRepository();
   });
   it("should return the Models datas", async () => {
     const expected = [
@@ -16,14 +15,14 @@ describe("Data fetching for Models", () => {
       { name: "Model4" },
       { name: "Model5" },
     ];
-    const actual = await new FetchModelUseCase(modelRepository).execute();
+    const actual = await new FetchModelUseCase(erpRepository).execute();
 
     expect(actual).toEqual(expected);
   }),
     it("should throw an error if empty the dataset", async () => {
-      modelRepository.data = [];
+      erpRepository.dataModels = [];
 
-      const actual = await new FetchModelUseCase(modelRepository).execute();
+      const actual = await new FetchModelUseCase(erpRepository).execute();
 
       expect(actual).toEqual(new NoDataFound());
     });

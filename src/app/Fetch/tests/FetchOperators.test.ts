@@ -1,11 +1,11 @@
-import { InMemoryOperatorsRepository } from "../adapters/repositories/Operator/InMemoryOperatorsRepository";
+import { InMemoryErpRepository } from "../adapters/repositories/InMemoryErpRepository";
 import { NoDataFound } from "../domain/errors/NoDataFound";
 import { FetchOperatorUseCase } from "../useCase/FetchOperatorUseCase";
 
-let operatorRepository: InMemoryOperatorsRepository;
+let operatorRepository: InMemoryErpRepository;
 describe("Data fetching for Operator", () => {
   beforeEach(() => {
-    operatorRepository = new InMemoryOperatorsRepository();
+    operatorRepository = new InMemoryErpRepository();
   });
   it("should return the operator datas", async () => {
     const expected = [
@@ -19,7 +19,7 @@ describe("Data fetching for Operator", () => {
     expect(actual).toEqual(expected);
   }),
     it("should throw an error if empty the dataset", async () => {
-      operatorRepository.data=[]
+      operatorRepository.dataOperators=[]
 
       const actual = await new FetchOperatorUseCase(
         operatorRepository

@@ -9,7 +9,7 @@ export class FetchModelsController {
     this.server.get("/get-models", {
       handler: async (request, response) => {
         const res = await new FetchModelUseCase(
-          dependencies.modelsRepository
+          dependencies.erpRepository
         ).execute();
         response.send(res);
       },
