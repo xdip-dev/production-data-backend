@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Machines {
+  ID      Int    @id @default(autoincrement())
+  NAME    String
+  BARCODE String @unique
+}
+
+model ListActions {
+  ID   Int     @id @default(autoincrement())
+  NAME String  @unique
+  ZONE String?
+}
+
+model StepProduction {
+  STEP_ID          Int       @id // number;
+  OPERATOR_ID      Int // number;
+  ACTION           String // string;
+  MODEL            String // string;
+  REFERENCE        String? // string;
+  BONNE            Int // number;
+  REBUT            Int // number;
+  START            DateTime? // Date | null;
+  END              DateTime? // Date | null;
+  STATUS           String // Status;
+  TIME_SECONDE     Int? // number | null;
+  PRODUCTIVITY     Int? // number | null;
+  BREAK_NUMBER     Int // number;
+  PREVIOUS_STEP_ID Int[] // number[]; should be optional 
+  STEP_PROBLEM     String? // string;
+}
