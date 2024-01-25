@@ -4,6 +4,7 @@ import { ErpModule } from './erp/erp.module';
 import { ConfigModule } from '@nestjs/config';
 import { ActionModule } from './actions/actions.module';
 import { MachineModule } from './machine/machine.module';
+import { PdfModule } from './pdf/pdf.module';
 
 @Module({
     imports: [
@@ -14,6 +15,7 @@ import { MachineModule } from './machine/machine.module';
         ErpModule,
         ActionModule,
         MachineModule,
+        PdfModule,
     ],
 })
 export class AppModule {}
