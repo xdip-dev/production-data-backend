@@ -47,7 +47,7 @@ export class MachineController {
 
     @Delete('/delete')
     @UsePipes(new ZodValidationPipe(IdValidationMachine))
-    public async deleteMachine(@Body() body: { id: number }): Promise<BadRequestException | void> {
+    public async deleteMachine(@Body() body: { id: string }): Promise<BadRequestException | void> {
         const res = await this.machine.delete(body.id);
         if (res.isErr()) {
             throw new BadRequestException(res.error.message);

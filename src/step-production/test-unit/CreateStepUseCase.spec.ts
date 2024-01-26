@@ -18,7 +18,7 @@ describe('Production Management', () => {
         dateService.nowDate = new Date(2022, 6, 6);
 
         await new CreateStepUseCase(actionRepository, dateService).execute({
-            operatorId: 1244,
+            operatorId: '1244',
             action: 'asm',
             model: 'ref',
         });
@@ -31,7 +31,7 @@ describe('Production Management', () => {
         dateService.nowDate = new Date(2022, 6, 6);
 
         await new CreateStepUseCase(actionRepository, dateService).execute({
-            operatorId: 1244,
+            operatorId: '1244',
             action: 'asm',
             model: 'ref',
             previousStepsIds: [1243],
@@ -49,7 +49,7 @@ describe('Production Management', () => {
 
     it('should save only once the data on creation', async () => {
         await new CreateStepUseCase(actionRepository, dateService).execute({
-            operatorId: 1244,
+            operatorId: '1244',
             action: 'asm',
             model: 'ref',
         });
@@ -59,14 +59,9 @@ describe('Production Management', () => {
 
     it('should throw an error if the last action is already started', async () => {
         let errorMessage = new Error();
-        actionRepository.datas = [
-            StepProductionMapper.toRepository(new StepBuilder().build()),
-        ];
-        const sut = await new CreateStepUseCase(
-            actionRepository,
-            dateService,
-        ).execute({
-            operatorId: 1244,
+        actionRepository.datas = [StepProductionMapper.toRepository(new StepBuilder().build())];
+        const sut = await new CreateStepUseCase(actionRepository, dateService).execute({
+            operatorId: '1244',
             action: 'asm',
             model: 'ref',
         });
@@ -85,7 +80,7 @@ describe('Production Management', () => {
             ),
         ];
         await new CreateStepUseCase(actionRepository, dateService).execute({
-            operatorId: 1244,
+            operatorId: '1244',
             action: 'asm',
             model: 'ref',
         });

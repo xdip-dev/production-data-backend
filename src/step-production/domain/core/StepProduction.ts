@@ -7,7 +7,7 @@ export class StepProduction {
     constructor(
         private readonly props: {
             stepId: number;
-            operatorId: number;
+            operatorId: string;
             action: string;
             model: string;
             reference: string | null;
@@ -66,7 +66,7 @@ export class StepProduction {
 
     public static create(props: {
         stepId: number;
-        operatorId: number;
+        operatorId: string;
         action: string;
         model: string;
         dateService: DateService;

@@ -15,7 +15,7 @@ export class PrismaProductionRepository implements ProductionRepository {
             update: StepProductionMapper.toRepository(props),
         });
     }
-    async getLastStepByOperatorId(operatorId: number): Promise<StepProduction | null> {
+    async getLastStepByOperatorId(operatorId: string): Promise<StepProduction | null> {
         const data = await this.prisma.stepProduction.findFirst({
             where: { OPERATOR_ID: operatorId },
         });

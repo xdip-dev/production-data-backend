@@ -7,7 +7,7 @@ import { DateService } from '@/step-production/domain/port/DateService';
 import { Err, Ok, Result } from '../../../shared/result';
 
 interface Props {
-    operatorId: number;
+    operatorId: string;
     action: string;
     model: string;
     previousStepsIds?: number[];

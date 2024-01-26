@@ -24,7 +24,7 @@ export class PrismaMachineRepository implements MachineRepository {
             throw error;
         }
     }
-    async modifyName(props: { id: number; name: string }): Promise<void> {
+    async modifyName(props: { id: string; name: string }): Promise<void> {
         try {
             await this.prismaClient.machines.update({
                 where: { ID: props.id },
@@ -39,7 +39,7 @@ export class PrismaMachineRepository implements MachineRepository {
             throw error;
         }
     }
-    async delete(id: number): Promise<void> {
+    async delete(id: string): Promise<void> {
         try {
             await this.prismaClient.machines.delete({
                 where: { ID: id },
@@ -61,13 +61,13 @@ export class PrismaMachineRepository implements MachineRepository {
             barcode: machine.BARCODE,
         }));
     }
-    async getLastId(): Promise<number> {
+    async getLastId(): Promise<string | null> {
         const machines = await this.prismaClient.machines.findMany({
             orderBy: { ID: 'desc' },
             take: 1,
         });
         if (machines.length === 0) {
-            return 0;
+            return null;
         }
         return machines[0].ID;
     }

@@ -30,9 +30,7 @@ export class InMemoryProductionRepository implements ProductionRepository {
         return highestId;
     }
 
-    public async getLastStepByOperatorId(
-        operatorId: number,
-    ): Promise<StepProduction | null> {
+    public async getLastStepByOperatorId(operatorId: string): Promise<StepProduction | null> {
         let matchingAction: null | ModelProductionRepository = null;
         let highestId = 0;
 

@@ -22,14 +22,20 @@ export class ErpService implements OnModuleInit, OnModuleDestroy, ErpRepository 
         }
     }
 
-    async getAllOperators(): Promise<{ id: number; name: string; barecode: string }[] | null> {
+    async getAllOperators(): Promise<{ id: string; name: string; barcode: string }[] | null> {
         try {
             const client = await this.pool.connect();
             try {
                 const res = await client.query(
                     'SELECT id, name_related as name, barcode FROM public.hr_employee',
                 );
-                return res.rows;
+                return res.rows.map((row: { id: string; name: string; barcode: string }) => {
+                    return {
+                        id: row.id.toString(),
+                        name: row.name,
+                        barecode: row.barcode,
+                    };
+                });
             } finally {
                 client.release();
             }

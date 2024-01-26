@@ -1,7 +1,7 @@
 import zod from 'zod';
 
 export const MachineSchema = zod.object({
-    id: zod.number(),
+    id: zod.string(),
     name: zod.string(),
 });
 

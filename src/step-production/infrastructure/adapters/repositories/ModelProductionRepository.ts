@@ -1,6 +1,6 @@
 export interface ModelProductionRepository {
     STEP_ID: number;
-    OPERATOR_ID: number;
+    OPERATOR_ID: string;
     ACTION: string;
     MODEL: string;
     BONNE: number;

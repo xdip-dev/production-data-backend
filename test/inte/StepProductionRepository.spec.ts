@@ -44,13 +44,15 @@ describe('ProductionRepository', () => {
         it('should update an existing entry', async () => {
             const productionRepository = new PrismaProductionRepository(prismaClient);
             await productionRepository.save(new StepBuilder().withId(1).build());
-            await productionRepository.save(new StepBuilder().withId(1).withOperatorId(2).build());
+            await productionRepository.save(
+                new StepBuilder().withId(1).withOperatorId('2').build(),
+            );
 
             const expectedEntry = await prismaClient.stepProduction.findFirstOrThrow({
                 where: { STEP_ID: 1 },
             });
             expect(StepProductionMapper.toDomain(expectedEntry).toState()).toEqual(
-                new StepBuilder().withId(1).withOperatorId(2).build().toState(),
+                new StepBuilder().withId(1).withOperatorId('2').build().toState(),
             );
             expect(await prismaClient.stepProduction.count()).toEqual(1);
         });
@@ -61,22 +63,22 @@ describe('ProductionRepository', () => {
             await prismaClient.stepProduction.createMany({
                 data: [
                     StepProductionMapper.toRepository(
-                        new StepBuilder().withId(1).withOperatorId(1).build(),
+                        new StepBuilder().withId(1).withOperatorId('1').build(),
                     ),
                     StepProductionMapper.toRepository(
-                        new StepBuilder().withId(2).withOperatorId(2).build(),
+                        new StepBuilder().withId(2).withOperatorId('2').build(),
                     ),
                     StepProductionMapper.toRepository(
-                        new StepBuilder().withId(3).withOperatorId(3).build(),
+                        new StepBuilder().withId(3).withOperatorId('3').build(),
                     ),
                 ],
             });
         });
         it('should return the last step by operator id', async () => {
             const productionRepository = new PrismaProductionRepository(prismaClient);
-            const lastStep = await productionRepository.getLastStepByOperatorId(2);
+            const lastStep = await productionRepository.getLastStepByOperatorId('2');
             expect(lastStep?.toState()).toEqual(
-                new StepBuilder().withId(2).withOperatorId(2).build().toState(),
+                new StepBuilder().withId(2).withOperatorId('2').build().toState(),
             );
         });
         it('should return the last step id', async () => {
@@ -88,7 +90,7 @@ describe('ProductionRepository', () => {
             const productionRepository = new PrismaProductionRepository(prismaClient);
             const step = await productionRepository.getStepById(2);
             expect(step?.toState()).toEqual(
-                new StepBuilder().withId(2).withOperatorId(2).build().toState(),
+                new StepBuilder().withId(2).withOperatorId('2').build().toState(),
             );
         });
     });

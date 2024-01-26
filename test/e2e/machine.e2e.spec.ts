@@ -50,9 +50,9 @@ describe('Machine Module (e2e)', () => {
                 const data = await machineRepo.getAllMachines();
                 const expected: Machine[] = [
                     {
-                        id: 1,
+                        id: 'M-1',
                         name: 'Machine 1',
-                        barcode: 'OPM-1',
+                        barcode: 'M-1',
                     },
                 ];
                 expect(data).toEqual(expected);
@@ -61,18 +61,18 @@ describe('Machine Module (e2e)', () => {
 
         describe('machine modification', () => {
             it('should modify the machine name into the DB returning a 200', async () => {
-                await machineRepo.save({ id: 1, name: 'Machine 1', barcode: 'OPM-1' });
+                await machineRepo.save({ id: 'M-1', name: 'Machine 1', barcode: 'M-1' });
                 await request(app.getHttpServer())
                     .patch('/machine/modify')
-                    .send({ id: 1, name: 'Machine 2' })
+                    .send({ id: 'M-1', name: 'Machine 2' })
                     .expect(200);
 
                 const data = await machineRepo.getAllMachines();
                 const expected: Machine[] = [
                     {
-                        id: 1,
+                        id: 'M-1',
                         name: 'Machine 2',
-                        barcode: 'OPM-1',
+                        barcode: 'M-1',
                     },
                 ];
                 expect(data).toEqual(expected);
@@ -81,10 +81,10 @@ describe('Machine Module (e2e)', () => {
 
         describe('machine deletion', () => {
             it('should delete the machine from the DB returning a 200', async () => {
-                await machineRepo.save({ id: 1, name: 'Machine 1', barcode: 'OPM-1' });
+                await machineRepo.save({ id: 'M-1', name: 'Machine 1', barcode: 'M-1' });
                 await request(app.getHttpServer())
                     .delete('/machine/delete')
-                    .send({ id: 1 })
+                    .send({ id: 'M-1' })
                     .expect(200);
 
                 const data = await machineRepo.getAllMachines();

@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Machines {
-  ID      Int    @id @default(autoincrement())
+  ID      String @id
   NAME    String
   BARCODE String @unique
 }
@@ -24,7 +24,7 @@ model ListActions {
 
 model StepProduction {
   STEP_ID          Int       @id // number;
-  OPERATOR_ID      Int // number;
+  OPERATOR_ID      String // number;
   ACTION           String // string;
   MODEL            String // string;
   REFERENCE        String? // string;

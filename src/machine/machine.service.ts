@@ -12,13 +12,14 @@ export class MachineService {
 
     async create(name: string): Promise<Result<void, Error>> {
         const lastIdRepository = await this.machineRepo.getLastId();
-        const id = lastIdRepository ? lastIdRepository + 1 : 1;
-        const barcode = `OPM-${id}`;
+        const numberLastIdRepository = lastIdRepository?.split('-')[1];
+        const id = numberLastIdRepository ? numberLastIdRepository + 1 : 1;
+        const stringIdFormat = `M-${id}`;
         try {
             await this.machineRepo.save({
-                id,
+                id: stringIdFormat,
                 name,
-                barcode,
+                barcode: stringIdFormat,
             });
         } catch (error) {
             return Err.of(new Error('Error on save machine'));
@@ -27,7 +28,7 @@ export class MachineService {
         return Ok.of(undefined);
     }
 
-    async modify(props: { id: number; name: string }): Promise<Result<void, Error>> {
+    async modify(props: { id: string; name: string }): Promise<Result<void, Error>> {
         try {
             await this.machineRepo.modifyName(props);
         } catch (error) {
@@ -37,7 +38,7 @@ export class MachineService {
         return Ok.of(undefined);
     }
 
-    async delete(id: number): Promise<Result<void, Error>> {
+    async delete(id: string): Promise<Result<void, Error>> {
         try {
             await this.machineRepo.delete(id);
         } catch (error) {

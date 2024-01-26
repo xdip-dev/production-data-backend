@@ -5,9 +5,9 @@ export abstract class ErpRepository {
     abstract getAllModels(): Promise<{ id: number; name: string }[] | null>;
     abstract getAllOperators(): Promise<
         | {
-              id: number;
+              id: string;
               name: string;
-              barecode: string;
+              barcode: string;
           }[]
         | null
     >;

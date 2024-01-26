@@ -51,13 +51,13 @@ describe('Step-Production (e2e)', () => {
 
                 await request(app.getHttpServer())
                     .post(pathUrl)
-                    .send({ operatorId: 1, action: 'Action 1', model: 'model 1' })
+                    .send({ operatorId: '1', action: 'Action 1', model: 'model 1' })
                     .expect(201);
 
-                const data = await stepProductionRepo.getLastStepByOperatorId(1);
+                const data = await stepProductionRepo.getLastStepByOperatorId('1');
                 expect(data).toEqual(
                     new StepBuilder()
-                        .withOperatorId(1)
+                        .withOperatorId('1')
                         .withId(1)
                         .withAction('Action 1')
                         .withModel('model 1')
@@ -67,8 +67,8 @@ describe('Step-Production (e2e)', () => {
             });
             it.each([
                 { action: 'Action 1', model: 'model 1' },
-                { operatorId: 1, model: 'model 1' },
-                { operatorId: 1, action: 'Action 1' },
+                { operatorId: '1', model: 'model 1' },
+                { operatorId: '1', action: 'Action 1' },
             ])(
                 'should return an Validation error when the body is missing one of the required fields: %s',
                 async (sendBody) => {
@@ -79,12 +79,12 @@ describe('Step-Production (e2e)', () => {
             it('should return an error when the operator is already openning a step', async () => {
                 const stepProductionRepo = new PrismaProductionRepository(prismaClient);
                 await stepProductionRepo.save(
-                    new StepBuilder().withOperatorId(1).withStatus(Status.IN_PROGRESS).build(),
+                    new StepBuilder().withOperatorId('1').withStatus(Status.IN_PROGRESS).build(),
                 );
 
                 await request(app.getHttpServer())
                     .post(pathUrl)
-                    .send({ operatorId: 1, action: 'Action 2', model: 'model 2' })
+                    .send({ operatorId: '1', action: 'Action 2', model: 'model 2' })
                     .expect(400);
             });
         });
@@ -94,7 +94,7 @@ describe('Step-Production (e2e)', () => {
                 const stepProductionRepo = new PrismaProductionRepository(prismaClient);
                 await stepProductionRepo.save(
                     new StepBuilder()
-                        .withOperatorId(1)
+                        .withOperatorId('1')
                         .withId(1)
                         .withStatus(Status.IN_PROGRESS)
                         .build(),
@@ -102,10 +102,10 @@ describe('Step-Production (e2e)', () => {
 
                 await request(app.getHttpServer()).patch(pathUrl).send({ stepId: 1 }).expect(200);
 
-                const data = await stepProductionRepo.getLastStepByOperatorId(1);
+                const data = await stepProductionRepo.getLastStepByOperatorId('1');
                 expect(data).toEqual(
                     new StepBuilder()
-                        .withOperatorId(1)
+                        .withOperatorId('1')
                         .withId(1)
                         .withStatus(Status.CANCELED)
                         .withEnd(dateProvider.nowDate)
@@ -117,7 +117,7 @@ describe('Step-Production (e2e)', () => {
                 const stepProductionRepo = new PrismaProductionRepository(prismaClient);
                 await stepProductionRepo.save(
                     new StepBuilder()
-                        .withOperatorId(1)
+                        .withOperatorId('1')
                         .withId(1)
                         .withStatus(Status.CANCELED)
                         .withEnd(dateProvider.nowDate)
@@ -135,7 +135,7 @@ describe('Step-Production (e2e)', () => {
                 const stepProductionRepo = new PrismaProductionRepository(prismaClient);
                 await stepProductionRepo.save(
                     new StepBuilder()
-                        .withOperatorId(1)
+                        .withOperatorId('1')
                         .withId(1)
                         .withStatus(Status.IN_PROGRESS)
                         .withStart(new Date('2023-02-14T15:00:00.000Z'))
@@ -151,7 +151,7 @@ describe('Step-Production (e2e)', () => {
                     })
                     .expect(200);
 
-                const data = await stepProductionRepo.getLastStepByOperatorId(1);
+                const data = await stepProductionRepo.getLastStepByOperatorId('1');
                 expect(data?.toState().status).toEqual(Status.ENDED);
                 expect(data?.toState().productivity).toBeGreaterThan(0);
             });
@@ -160,7 +160,7 @@ describe('Step-Production (e2e)', () => {
                 const stepProductionRepo = new PrismaProductionRepository(prismaClient);
                 await stepProductionRepo.save(
                     new StepBuilder()
-                        .withOperatorId(1)
+                        .withOperatorId('1')
                         .withId(1)
                         .withStatus(Status.ENDED)
                         .withEnd(dateProvider.nowDate)

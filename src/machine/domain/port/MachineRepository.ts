@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 export type Machine = {
-    id: number;
+    id: string;
     name: string;
     barcode: string;
 };
@@ -8,8 +8,8 @@ export type Machine = {
 @Injectable()
 export abstract class MachineRepository {
     abstract save(props: Machine): Promise<void>;
-    abstract modifyName(props: { id: number; name: string }): Promise<void>;
-    abstract delete(id: number): Promise<void>;
+    abstract modifyName(props: { id: string; name: string }): Promise<void>;
+    abstract delete(id: string): Promise<void>;
     abstract getAllMachines(): Promise<Machine[]>;
-    abstract getLastId(): Promise<number>;
+    abstract getLastId(): Promise<string | null>;
 }
