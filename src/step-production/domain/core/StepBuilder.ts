@@ -8,7 +8,7 @@ export class StepBuilder {
         this.data = StepProduction.fromState({
             stepId: 1,
             operatorId: '1244',
-            action: 'asm',
+            action: 1,
             model: 'ref',
             reference: null,
             bonne: 0,
@@ -52,7 +52,7 @@ export class StepBuilder {
         });
         return this;
     }
-    withAction(action: string) {
+    withAction(action: number) {
         this.data = StepProduction.fromState({
             ...this.data.toState(),
             action,

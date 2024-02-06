@@ -10,7 +10,7 @@ describe('MachineRepository', () => {
         const setup = await setupTestEnvironment();
         container = setup.container;
         prismaClient = setup.prismaClient;
-    }, 20000);
+    }, 30000);
     afterAll(async () => {
         await teardownTestEnvironment(container, prismaClient);
     });

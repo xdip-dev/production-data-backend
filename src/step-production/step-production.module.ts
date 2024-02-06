@@ -9,6 +9,7 @@ import { PrismaClient } from '@prisma/client';
 import { PrismaService } from '../shared/prisma/PrismaService';
 import { CancelStepUseCase } from './use-cases/step-production/CancelStepUseCase';
 import { EndStepUseCase } from './use-cases/step-production/EndStepUseCase';
+import { StepProductionService } from './use-cases/step-production.service';
 @Module({
     imports: [],
     controllers: [StepProductionController],
@@ -16,6 +17,7 @@ import { EndStepUseCase } from './use-cases/step-production/EndStepUseCase';
         CreateStepUseCase,
         CancelStepUseCase,
         EndStepUseCase,
+        StepProductionService,
         {
             provide: PrismaClient,
             useClass: PrismaService,

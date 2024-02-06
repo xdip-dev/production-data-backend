@@ -18,7 +18,7 @@ describe('Machine Module (e2e)', () => {
         const setup = await setupTestEnvironment();
         container = setup.container;
         prismaClient = setup.prismaClient;
-    }, 20000);
+    }, 30000);
     afterAll(async () => {
         await teardownTestEnvironment(container, prismaClient);
     });
@@ -53,6 +53,40 @@ describe('Machine Module (e2e)', () => {
                         id: 'M-1',
                         name: 'Machine 1',
                         barcode: 'M-1',
+                    },
+                ];
+                expect(data).toEqual(expected);
+            });
+            it('should create several machine with the right incrementations', async () => {
+                await request(app.getHttpServer())
+                    .post('/machine/create')
+                    .send({ name: 'Machine 1' })
+                    .expect(201);
+                await request(app.getHttpServer())
+                    .post('/machine/create')
+                    .send({ name: 'Machine 2' })
+                    .expect(201);
+                await request(app.getHttpServer())
+                    .post('/machine/create')
+                    .send({ name: 'Machine 3' })
+                    .expect(201);
+
+                const data = await machineRepo.getAllMachines();
+                const expected: Machine[] = [
+                    {
+                        id: 'M-1',
+                        name: 'Machine 1',
+                        barcode: 'M-1',
+                    },
+                    {
+                        id: 'M-2',
+                        name: 'Machine 2',
+                        barcode: 'M-2',
+                    },
+                    {
+                        id: 'M-3',
+                        name: 'Machine 3',
+                        barcode: 'M-3',
                     },
                 ];
                 expect(data).toEqual(expected);

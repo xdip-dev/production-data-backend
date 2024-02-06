@@ -12,9 +12,9 @@ export class MachineService {
 
     async create(name: string): Promise<Result<void, Error>> {
         const lastIdRepository = await this.machineRepo.getLastId();
-        const numberLastIdRepository = lastIdRepository?.split('-')[1];
+        const numberLastIdRepository = Number(lastIdRepository?.split('-')[1]);
         const id = numberLastIdRepository ? numberLastIdRepository + 1 : 1;
-        const stringIdFormat = `M-${id}`;
+        const stringIdFormat = `M-${id.toString()}`;
         try {
             await this.machineRepo.save({
                 id: stringIdFormat,

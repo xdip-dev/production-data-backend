@@ -3,7 +3,11 @@ import { StartedTestContainer } from 'testcontainers';
 import { PrismaProductionRepository } from '@/step-production/infrastructure/adapters/repositories/PrismaProductionRepository';
 import { StepBuilder } from '@/step-production/domain/core/StepBuilder';
 import { StepProductionMapper } from '@/step-production/infrastructure/adapters/repositories/StepProductionMapper';
-import { setupTestEnvironment, teardownTestEnvironment } from '../fixtureContainerPrisma';
+import {
+    setListActionsForForeignKey,
+    setupTestEnvironment,
+    teardownTestEnvironment,
+} from '../fixtureContainerPrisma';
 
 describe('ProductionRepository', () => {
     let container: StartedTestContainer;
@@ -12,7 +16,8 @@ describe('ProductionRepository', () => {
         const setup = await setupTestEnvironment();
         container = setup.container;
         prismaClient = setup.prismaClient;
-    }, 20000);
+        await setListActionsForForeignKey();
+    }, 30000);
     afterAll(async () => {
         await teardownTestEnvironment(container, prismaClient);
     });

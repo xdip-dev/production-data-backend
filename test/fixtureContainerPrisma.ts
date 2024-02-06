@@ -34,6 +34,15 @@ export async function setupTestEnvironment() {
     return { container, prismaClient };
 }
 
+export async function setListActionsForForeignKey() {
+    await prismaClient.listActions.createMany({
+        data: [
+            { ID: 1, NAME: 'action1' },
+            { ID: 2, NAME: 'action2' },
+        ],
+    });
+}
+
 export async function teardownTestEnvironment(
     container: StartedTestContainer,
     prismaClient: PrismaClient,

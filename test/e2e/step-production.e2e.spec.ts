@@ -9,7 +9,11 @@ import { InMemoryDateService } from '@/step-production/infrastructure/adapters/d
 import { PrismaProductionRepository } from '@/step-production/infrastructure/adapters/repositories/PrismaProductionRepository';
 import { StepBuilder } from '@/step-production/domain/core/StepBuilder';
 import { Status } from '@/step-production/domain/core/StepStatus';
-import { setupTestEnvironment, teardownTestEnvironment } from '../fixtureContainerPrisma';
+import {
+    setListActionsForForeignKey,
+    setupTestEnvironment,
+    teardownTestEnvironment,
+} from '../fixtureContainerPrisma';
 
 describe('Step-Production (e2e)', () => {
     let app: INestApplication;
@@ -23,7 +27,8 @@ describe('Step-Production (e2e)', () => {
         const setup = await setupTestEnvironment();
         container = setup.container;
         prismaClient = setup.prismaClient;
-    }, 20000);
+        await setListActionsForForeignKey();
+    }, 30000);
     afterAll(async () => {
         await teardownTestEnvironment(container, prismaClient);
     });
@@ -45,13 +50,13 @@ describe('Step-Production (e2e)', () => {
 
     describe(" Step Production Controller's", () => {
         describe('step creation', () => {
-            const pathUrl = '/create-step';
+            const pathUrl = '/step/create';
             it('should create the step into the DB returning a 201', async () => {
                 const stepProductionRepo = new PrismaProductionRepository(prismaClient);
 
                 await request(app.getHttpServer())
                     .post(pathUrl)
-                    .send({ operatorId: '1', action: 'Action 1', model: 'model 1' })
+                    .send({ operatorId: '1', action: 1, model: 'model 1' })
                     .expect(201);
 
                 const data = await stepProductionRepo.getLastStepByOperatorId('1');
@@ -59,16 +64,16 @@ describe('Step-Production (e2e)', () => {
                     new StepBuilder()
                         .withOperatorId('1')
                         .withId(1)
-                        .withAction('Action 1')
+                        .withAction(1)
                         .withModel('model 1')
                         .withStart(now)
                         .build(),
                 );
             });
             it.each([
-                { action: 'Action 1', model: 'model 1' },
+                { action: 1, model: 'model 1' },
                 { operatorId: '1', model: 'model 1' },
-                { operatorId: '1', action: 'Action 1' },
+                { operatorId: '1', action: 1 },
             ])(
                 'should return an Validation error when the body is missing one of the required fields: %s',
                 async (sendBody) => {
@@ -84,12 +89,12 @@ describe('Step-Production (e2e)', () => {
 
                 await request(app.getHttpServer())
                     .post(pathUrl)
-                    .send({ operatorId: '1', action: 'Action 2', model: 'model 2' })
+                    .send({ operatorId: '1', action: 1, model: 'model 2' })
                     .expect(400);
             });
         });
         describe('step cancellation', () => {
-            const pathUrl = '/cancel-step';
+            const pathUrl = '/step/cancel';
             it('should cancel the step into the DB returning a 204', async () => {
                 const stepProductionRepo = new PrismaProductionRepository(prismaClient);
                 await stepProductionRepo.save(
@@ -130,7 +135,7 @@ describe('Step-Production (e2e)', () => {
             });
         });
         describe('step Ending', () => {
-            const pathUrl = '/end-step';
+            const pathUrl = '/step/end';
             it('should end the step into the DB returning a 204', async () => {
                 const stepProductionRepo = new PrismaProductionRepository(prismaClient);
                 await stepProductionRepo.save(
@@ -170,6 +175,26 @@ describe('Step-Production (e2e)', () => {
                 await request(app.getHttpServer()).patch(pathUrl).send({ stepId: 2 }).expect(400);
 
                 await request(app.getHttpServer()).patch(pathUrl).send({ stepId: 1 }).expect(400);
+            });
+        });
+        describe('step service', () => {
+            it('should return the last step by operator', async () => {
+                const stepProductionRepo = new PrismaProductionRepository(prismaClient);
+                await stepProductionRepo.save(new StepBuilder().withOperatorId('OP-1').build());
+
+                const response = await request(app.getHttpServer())
+                    .get('/step/operator/OP-1')
+                    .expect(200);
+                expect(response.body).toEqual(
+                    new StepBuilder().withOperatorId('OP-1').build().toState(),
+                );
+            });
+            it('should return the step by id', async () => {
+                const stepProductionRepo = new PrismaProductionRepository(prismaClient);
+                await stepProductionRepo.save(new StepBuilder().withId(12).build());
+
+                const response = await request(app.getHttpServer()).get('/step/12').expect(200);
+                expect(response.body).toEqual(new StepBuilder().withId(12).build().toState());
             });
         });
     });

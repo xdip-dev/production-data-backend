@@ -19,7 +19,7 @@ describe('Production Management', () => {
 
         await new CreateStepUseCase(actionRepository, dateService).execute({
             operatorId: '1244',
-            action: 'asm',
+            action: 1,
             model: 'ref',
         });
 
@@ -32,7 +32,7 @@ describe('Production Management', () => {
 
         await new CreateStepUseCase(actionRepository, dateService).execute({
             operatorId: '1244',
-            action: 'asm',
+            action: 1,
             model: 'ref',
             previousStepsIds: [1243],
             reference: 'ref',
@@ -50,7 +50,7 @@ describe('Production Management', () => {
     it('should save only once the data on creation', async () => {
         await new CreateStepUseCase(actionRepository, dateService).execute({
             operatorId: '1244',
-            action: 'asm',
+            action: 1,
             model: 'ref',
         });
 
@@ -62,7 +62,7 @@ describe('Production Management', () => {
         actionRepository.datas = [StepProductionMapper.toRepository(new StepBuilder().build())];
         const sut = await new CreateStepUseCase(actionRepository, dateService).execute({
             operatorId: '1244',
-            action: 'asm',
+            action: 1,
             model: 'ref',
         });
         if (sut.isErr()) errorMessage = sut.error;
@@ -81,7 +81,7 @@ describe('Production Management', () => {
         ];
         await new CreateStepUseCase(actionRepository, dateService).execute({
             operatorId: '1244',
-            action: 'asm',
+            action: 1,
             model: 'ref',
         });
 

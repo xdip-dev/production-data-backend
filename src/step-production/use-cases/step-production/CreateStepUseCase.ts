@@ -8,7 +8,7 @@ import { Err, Ok, Result } from '../../../shared/result';
 
 interface Props {
     operatorId: string;
-    action: string;
+    action: number;
     model: string;
     previousStepsIds?: number[];
     reference?: string;

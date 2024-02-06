@@ -2,7 +2,7 @@ import * as zod from 'zod';
 
 export const CreateStepSchema = zod.object({
     operatorId: zod.string(),
-    action: zod.string(),
+    action: zod.number(),
     model: zod.string(),
     previousAction: zod.number().optional(),
 });

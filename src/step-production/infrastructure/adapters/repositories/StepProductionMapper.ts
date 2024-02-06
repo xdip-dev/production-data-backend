@@ -7,7 +7,7 @@ export class StepProductionMapper {
         return StepProduction.fromState({
             stepId: props.STEP_ID,
             operatorId: props.OPERATOR_ID,
-            action: props.ACTION,
+            action: props.ACTION_ID,
             model: props.MODEL,
             bonne: props.BONNE,
             reference: props.REFERENCE,
@@ -22,14 +22,12 @@ export class StepProductionMapper {
             stepProblem: props.STEP_PROBLEM,
         });
     }
-    public static toRepository(
-        props: StepProduction,
-    ): ModelProductionRepository {
+    public static toRepository(props: StepProduction): ModelProductionRepository {
         const state = props.toState();
         return {
             STEP_ID: state.stepId,
             OPERATOR_ID: state.operatorId,
-            ACTION: state.action,
+            ACTION_ID: state.action,
             MODEL: state.model,
             REFERENCE: state.reference,
             BONNE: state.bonne,

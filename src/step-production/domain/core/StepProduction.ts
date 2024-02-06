@@ -8,7 +8,7 @@ export class StepProduction {
         private readonly props: {
             stepId: number;
             operatorId: string;
-            action: string;
+            action: number;
             model: string;
             reference: string | null;
             bonne: number;
@@ -67,7 +67,7 @@ export class StepProduction {
     public static create(props: {
         stepId: number;
         operatorId: string;
-        action: string;
+        action: number;
         model: string;
         dateService: DateService;
         previousStepsIds?: number[];

@@ -17,15 +17,17 @@ model Machines {
 }
 
 model ListActions {
-  ID   Int     @id @default(autoincrement())
-  NAME String  @unique
+  ID   Int              @id @default(autoincrement())
+  NAME String           @unique
   ZONE String?
+  step StepProduction[]
 }
 
 model StepProduction {
-  STEP_ID          Int       @id // number;
+  STEP_ID          Int         @id // number;
   OPERATOR_ID      String // number;
-  ACTION           String // string;
+  action           ListActions @relation(fields: [ACTION_ID], references: [ID])
+  ACTION_ID        Int // string;
   MODEL            String // string;
   REFERENCE        String? // string;
   BONNE            Int // number;
