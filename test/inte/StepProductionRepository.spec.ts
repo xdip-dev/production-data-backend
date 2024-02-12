@@ -8,6 +8,7 @@ import {
     setupTestEnvironment,
     teardownTestEnvironment,
 } from '../fixtureContainerPrisma';
+import { Status } from '@/step-production/domain/core/StepStatus';
 
 describe('ProductionRepository', () => {
     let container: StartedTestContainer;
@@ -71,31 +72,38 @@ describe('ProductionRepository', () => {
                         new StepBuilder().withId(1).withOperatorId('1').build(),
                     ),
                     StepProductionMapper.toRepository(
-                        new StepBuilder().withId(2).withOperatorId('2').build(),
+                        new StepBuilder()
+                            .withId(2)
+                            .withOperatorId('2')
+                            .withStatus(Status.ENDED)
+                            .build(),
                     ),
                     StepProductionMapper.toRepository(
                         new StepBuilder().withId(3).withOperatorId('3').build(),
+                    ),
+                    StepProductionMapper.toRepository(
+                        new StepBuilder().withId(4).withOperatorId('2').build(),
                     ),
                 ],
             });
         });
         it('should return the last step by operator id', async () => {
             const productionRepository = new PrismaProductionRepository(prismaClient);
-            const lastStep = await productionRepository.getLastStepByOperatorId('2');
+            const lastStep = await productionRepository.getLastActiveStepByOperatorId('2');
             expect(lastStep?.toState()).toEqual(
-                new StepBuilder().withId(2).withOperatorId('2').build().toState(),
+                new StepBuilder().withId(4).withOperatorId('2').build().toState(),
             );
         });
         it('should return the last step id', async () => {
             const productionRepository = new PrismaProductionRepository(prismaClient);
             const lastStepId = await productionRepository.getLastStepId();
-            expect(lastStepId).toEqual(3);
+            expect(lastStepId).toEqual(4);
         });
         it('should return the step by id', async () => {
             const productionRepository = new PrismaProductionRepository(prismaClient);
-            const step = await productionRepository.getStepById(2);
+            const step = await productionRepository.getStepById(3);
             expect(step?.toState()).toEqual(
-                new StepBuilder().withId(2).withOperatorId('2').build().toState(),
+                new StepBuilder().withId(3).withOperatorId('3').build().toState(),
             );
         });
     });

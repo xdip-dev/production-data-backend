@@ -37,7 +37,7 @@ export class StepProductionController {
     public async lastStepByOperator(
         @Param('id') id: string,
     ): Promise<StepProduction['props'] | null> {
-        const res = await this.stepService.getLastStepByOperatorId(id);
+        const res = await this.stepService.getLastActiveStepByOperatorId(id);
         return res;
     }
 

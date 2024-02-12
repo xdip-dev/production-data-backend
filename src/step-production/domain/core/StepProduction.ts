@@ -152,7 +152,7 @@ export class StepProduction {
             return hours;
         }
 
-        const currentDate = this.props.start;
+        const currentDate = new Date(this.props.start);
         // jump the first hours to avoid counting action started after the break hours during the same hour
         currentDate.setTime(currentDate.getTime() + 3600000);
 

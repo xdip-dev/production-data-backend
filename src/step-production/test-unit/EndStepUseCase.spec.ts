@@ -198,4 +198,22 @@ describe('End an action', () => {
             );
         },
     );
+    it.only('should Not modify the start date', async () => {
+        dateService.nowDate = new Date(2023, 6, 6, 15);
+        actionRepository.datas = [
+            StepProductionMapper.toRepository(
+                new StepBuilder()
+                    .withId(1)
+                    .withStart(new Date(2023, 6, 6, 10))
+                    .build(),
+            ),
+        ];
+
+        await new EndStepUseCase(actionRepository, dateService).execute({
+            stepId: 1,
+            bonne: 1,
+            rebut: 1,
+        });
+        expect(actionRepository.savedWith[0].toState().start).toEqual(new Date(2023, 6, 6, 10));
+    });
 });

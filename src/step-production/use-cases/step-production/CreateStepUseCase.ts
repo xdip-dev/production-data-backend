@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { AlreadyOpennedError } from '../../domain/errors/AlreadyOpennedError';
 import { StepProduction } from '../../domain/core/StepProduction';
 import { ProductionRepository } from '../../domain/port/ProductionRepository';
-import { Status } from '../../domain/core/StepStatus';
 import { DateService } from '@/step-production/domain/port/DateService';
 import { Err, Ok, Result } from '../../../shared/result';
 
@@ -39,11 +38,10 @@ export class CreateStepUseCase {
             previousStepsIds: props.previousStepsIds,
             reference: props.reference,
         });
-        const actionExistingForOperator = await this.productionRepository.getLastStepByOperatorId(
-            props.operatorId,
-        );
+        const actionExistingForOperator =
+            await this.productionRepository.getLastActiveStepByOperatorId(props.operatorId);
 
-        if (actionExistingForOperator?.toState().status === Status.IN_PROGRESS) {
+        if (actionExistingForOperator) {
             return Err.of(new AlreadyOpennedError(actionExistingForOperator.toState().stepId));
         }
 

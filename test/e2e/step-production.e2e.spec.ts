@@ -59,7 +59,7 @@ describe('Step-Production (e2e)', () => {
                     .send({ operatorId: '1', action: 1, model: 'model 1' })
                     .expect(201);
 
-                const data = await stepProductionRepo.getLastStepByOperatorId('1');
+                const data = await stepProductionRepo.getLastActiveStepByOperatorId('1');
                 expect(data).toEqual(
                     new StepBuilder()
                         .withOperatorId('1')
@@ -107,7 +107,7 @@ describe('Step-Production (e2e)', () => {
 
                 await request(app.getHttpServer()).patch(pathUrl).send({ stepId: 1 }).expect(200);
 
-                const data = await stepProductionRepo.getLastStepByOperatorId('1');
+                const data = await stepProductionRepo.getLastActiveStepByOperatorId('1');
                 expect(data).toEqual(
                     new StepBuilder()
                         .withOperatorId('1')
@@ -156,7 +156,7 @@ describe('Step-Production (e2e)', () => {
                     })
                     .expect(200);
 
-                const data = await stepProductionRepo.getLastStepByOperatorId('1');
+                const data = await stepProductionRepo.getLastActiveStepByOperatorId('1');
                 expect(data?.toState().status).toEqual(Status.ENDED);
                 expect(data?.toState().productivity).toBeGreaterThan(0);
             });

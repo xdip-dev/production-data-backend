@@ -3,6 +3,7 @@ import { ModelProductionRepository } from './ModelProductionRepository';
 import { Injectable } from '@nestjs/common';
 import { ProductionRepository } from '@/step-production/domain/port/ProductionRepository';
 import { StepProduction } from '@/step-production/domain/core/StepProduction';
+import { Status } from '@/step-production/domain/core/StepStatus';
 
 Injectable();
 export class InMemoryProductionRepository implements ProductionRepository {
@@ -30,14 +31,12 @@ export class InMemoryProductionRepository implements ProductionRepository {
         return highestId;
     }
 
-    public async getLastStepByOperatorId(operatorId: string): Promise<StepProduction | null> {
+    public async getLastActiveStepByOperatorId(operatorId: string): Promise<StepProduction | null> {
         let matchingAction: null | ModelProductionRepository = null;
-        let highestId = 0;
 
         for (const data of this.datas) {
-            if (data.OPERATOR_ID === operatorId && data.STEP_ID > highestId) {
+            if (data.OPERATOR_ID === operatorId && data.STATUS === Status.IN_PROGRESS) {
                 matchingAction = data;
-                highestId = data.STEP_ID;
             }
         }
 

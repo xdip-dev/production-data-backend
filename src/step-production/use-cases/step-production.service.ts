@@ -11,8 +11,8 @@ export class StepProductionService {
         return step?.toState() ?? null;
     }
 
-    async getLastStepByOperatorId(operatorId: string): Promise<StepProduction['props'] | null> {
-        const step = await this.productionRepository.getLastStepByOperatorId(operatorId);
+    async getLastActiveStepByOperatorId(operatorId: string): Promise<StepProduction['props'] | null> {
+        const step = await this.productionRepository.getLastActiveStepByOperatorId(operatorId);
         return step?.toState() ?? null;
     }
 }
