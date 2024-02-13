@@ -18,7 +18,7 @@ describe('ProductionRepository', () => {
         container = setup.container;
         prismaClient = setup.prismaClient;
         await setListActionsForForeignKey();
-    }, 30000);
+    }, 50000);
     afterAll(async () => {
         await teardownTestEnvironment(container, prismaClient);
     });

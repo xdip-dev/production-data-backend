@@ -28,7 +28,7 @@ describe('Step-Production (e2e)', () => {
         container = setup.container;
         prismaClient = setup.prismaClient;
         await setListActionsForForeignKey();
-    }, 30000);
+    }, 50000);
     afterAll(async () => {
         await teardownTestEnvironment(container, prismaClient);
     });
@@ -95,7 +95,7 @@ describe('Step-Production (e2e)', () => {
         });
         describe('step cancellation', () => {
             const pathUrl = '/step/cancel';
-            it('should cancel the step into the DB returning a 204', async () => {
+            it('should cancel the step into the DB', async () => {
                 const stepProductionRepo = new PrismaProductionRepository(prismaClient);
                 await stepProductionRepo.save(
                     new StepBuilder()
@@ -107,7 +107,7 @@ describe('Step-Production (e2e)', () => {
 
                 await request(app.getHttpServer()).patch(pathUrl).send({ stepId: 1 }).expect(200);
 
-                const data = await stepProductionRepo.getLastActiveStepByOperatorId('1');
+                const data = await stepProductionRepo.getStepById(1);
                 expect(data).toEqual(
                     new StepBuilder()
                         .withOperatorId('1')
@@ -136,7 +136,7 @@ describe('Step-Production (e2e)', () => {
         });
         describe('step Ending', () => {
             const pathUrl = '/step/end';
-            it('should end the step into the DB returning a 204', async () => {
+            it('should end the step into the DB with status ended and a productivity', async () => {
                 const stepProductionRepo = new PrismaProductionRepository(prismaClient);
                 await stepProductionRepo.save(
                     new StepBuilder()
@@ -156,7 +156,7 @@ describe('Step-Production (e2e)', () => {
                     })
                     .expect(200);
 
-                const data = await stepProductionRepo.getLastActiveStepByOperatorId('1');
+                const data = await stepProductionRepo.getStepById(1);
                 expect(data?.toState().status).toEqual(Status.ENDED);
                 expect(data?.toState().productivity).toBeGreaterThan(0);
             });

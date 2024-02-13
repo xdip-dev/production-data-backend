@@ -18,7 +18,7 @@ describe('Machine Module (e2e)', () => {
         const setup = await setupTestEnvironment();
         container = setup.container;
         prismaClient = setup.prismaClient;
-    }, 30000);
+    }, 50000);
     afterAll(async () => {
         await teardownTestEnvironment(container, prismaClient);
     });

@@ -21,7 +21,7 @@ describe('Action Module (e2e)', () => {
         const setup = await setupTestEnvironment();
         container = setup.container;
         prismaClient = setup.prismaClient;
-    }, 20000);
+    }, 50000);
     afterAll(async () => {
         await teardownTestEnvironment(container, prismaClient);
     });
@@ -38,7 +38,7 @@ describe('Action Module (e2e)', () => {
         await app.init();
         await prismaClient.listActions.deleteMany();
         await prismaClient.$executeRawUnsafe(
-            `TRUNCATE TABLE public."ListActions" RESTART IDENTITY`,
+            `TRUNCATE TABLE public."ListActions" RESTART IDENTITY CASCADE`,
         );
     });
 
