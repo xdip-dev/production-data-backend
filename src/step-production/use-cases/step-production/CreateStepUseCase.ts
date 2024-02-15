@@ -11,6 +11,7 @@ interface Props {
     model: string;
     previousStepsIds?: number[];
     reference?: string;
+    matrice?: string;
 }
 
 @Injectable()
@@ -33,6 +34,7 @@ export class CreateStepUseCase {
             stepId: id,
             operatorId: props.operatorId,
             model: props.model,
+            matrice: props.matrice,
             action: props.action,
             dateService: this.dateService,
             previousStepsIds: props.previousStepsIds,
@@ -44,7 +46,6 @@ export class CreateStepUseCase {
         if (actionExistingForOperator) {
             return Err.of(new AlreadyOpennedError(actionExistingForOperator.toState().stepId));
         }
-
         await this.productionRepository.save(actionCreated);
 
         return Ok.of(undefined);

@@ -11,6 +11,7 @@ import { StepBuilder } from '@/step-production/domain/core/StepBuilder';
 import { Status } from '@/step-production/domain/core/StepStatus';
 import {
     setListActionsForForeignKey,
+    setMatriceForForeignKey,
     setupTestEnvironment,
     teardownTestEnvironment,
 } from '../fixtureContainerPrisma';
@@ -28,6 +29,7 @@ describe('Step-Production (e2e)', () => {
         container = setup.container;
         prismaClient = setup.prismaClient;
         await setListActionsForForeignKey();
+        await setMatriceForForeignKey();
     }, 50000);
     afterAll(async () => {
         await teardownTestEnvironment(container, prismaClient);
@@ -56,7 +58,14 @@ describe('Step-Production (e2e)', () => {
 
                 await request(app.getHttpServer())
                     .post(pathUrl)
-                    .send({ operatorId: '1', action: 1, model: 'model 1' })
+                    .send({
+                        operatorId: '1',
+                        action: 1,
+                        model: 'model 1',
+                        previousStepsIds: [1, 2],
+                        reference: 'ref e2e',
+                        matrice: 'id-code-matrice-2',
+                    })
                     .expect(201);
 
                 const data = await stepProductionRepo.getLastActiveStepByOperatorId('1');
@@ -67,6 +76,9 @@ describe('Step-Production (e2e)', () => {
                         .withAction(1)
                         .withModel('model 1')
                         .withStart(now)
+                        .withPreviousStepIds([1, 2])
+                        .withReference('ref e2e')
+                        .withMatrice('id-code-matrice-2')
                         .build(),
                 );
             });
@@ -198,5 +210,4 @@ describe('Step-Production (e2e)', () => {
             });
         });
     });
-    describe(" Operator Machine Controller's", () => {});
 });

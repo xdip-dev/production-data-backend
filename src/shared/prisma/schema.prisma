@@ -10,6 +10,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Matrice {
+  CODE_ID     String           @id
+  DESIGNATION String
+  BARCODE     String           @unique
+  step        StepProduction[]
+}
+
 model Machines {
   ID      String @id
   NAME    String
@@ -24,20 +31,22 @@ model ListActions {
 }
 
 model StepProduction {
-  STEP_ID          Int         @id // number;
-  OPERATOR_ID      String // number;
+  STEP_ID          Int         @id
+  OPERATOR_ID      String
+  ACTION_ID        Int
+  MATRICE_ID       String?
+  MODEL            String
+  REFERENCE        String?
+  BONNE            Int
+  REBUT            Int
+  START            DateTime?
+  END              DateTime?
+  STATUS           String
+  TIME_SECONDE     Int?
+  PRODUCTIVITY     Int?
+  BREAK_NUMBER     Int
+  PREVIOUS_STEP_ID Int[]
+  STEP_PROBLEM     String?
   action           ListActions @relation(fields: [ACTION_ID], references: [ID])
-  ACTION_ID        Int // string;
-  MODEL            String // string;
-  REFERENCE        String? // string;
-  BONNE            Int // number;
-  REBUT            Int // number;
-  START            DateTime? // Date | null;
-  END              DateTime? // Date | null;
-  STATUS           String // Status;
-  TIME_SECONDE     Int? // number | null;
-  PRODUCTIVITY     Int? // number | null;
-  BREAK_NUMBER     Int // number;
-  PREVIOUS_STEP_ID Int[] // number[]; should be optional 
-  STEP_PROBLEM     String? // string;
+  matrice          Matrice?    @relation(fields: [MATRICE_ID], references: [CODE_ID])
 }

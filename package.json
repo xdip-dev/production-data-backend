@@ -18,7 +18,7 @@
         "test:unit": "jest ./src/step-production/test-unit --watchAll",
         "test:inte": "jest ./test/inte",
         "test:e2e": "jest ./test/e2e",
-        "test:one": "jest StepProductionRepository.spec.ts --detectOpenHandles",
+        "test:one": "jest matrice.e2e.spec.ts --detectOpenHandles",
         "test:cov": "jest --coverage",
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand"
     },

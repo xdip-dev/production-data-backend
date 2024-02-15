@@ -11,6 +11,7 @@ export class StepBuilder {
             action: 1,
             model: 'ref',
             reference: null,
+            matrice: null,
             bonne: 0,
             rebut: 0,
             start: null,
@@ -49,6 +50,13 @@ export class StepBuilder {
         this.data = StepProduction.fromState({
             ...this.data.toState(),
             model,
+        });
+        return this;
+    }
+    withMatrice(matrice: string) {
+        this.data = StepProduction.fromState({
+            ...this.data.toState(),
+            matrice,
         });
         return this;
     }

@@ -42,6 +42,22 @@ export async function setListActionsForForeignKey() {
         ],
     });
 }
+export async function setMatriceForForeignKey() {
+    await prismaClient.matrice.createMany({
+        data: [
+            {
+                CODE_ID: 'id-code-matrice-1',
+                DESIGNATION: 'matrice 1',
+                BARCODE: 'id-code-matrice-1',
+            },
+            {
+                CODE_ID: 'id-code-matrice-2',
+                DESIGNATION: 'matrice 2',
+                BARCODE: 'id-code-matrice-2',
+            },
+        ],
+    });
+}
 
 export async function teardownTestEnvironment(
     container: StartedTestContainer,

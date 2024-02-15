@@ -27,7 +27,7 @@ describe('Production Management', () => {
             new StepBuilder().withStart(dateService.now()).build(),
         );
     });
-    it('should write the optional argument of previousAction, ref', async () => {
+    it('should write the optional arguments', async () => {
         dateService.nowDate = new Date(2022, 6, 6);
 
         await new CreateStepUseCase(actionRepository, dateService).execute({
@@ -36,12 +36,14 @@ describe('Production Management', () => {
             model: 'ref',
             previousStepsIds: [1243],
             reference: 'ref',
+            matrice: 'matrice',
         });
 
         expect(actionRepository.savedWith[0]).toEqual(
             new StepBuilder()
                 .withPreviousStepIds([1243])
                 .withReference('ref')
+                .withMatrice('matrice')
                 .withStart(dateService.now())
                 .build(),
         );

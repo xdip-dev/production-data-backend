@@ -11,6 +11,7 @@ export class StepProduction {
             action: number;
             model: string;
             reference: string | null;
+            matrice: string | null;
             bonne: number;
             rebut: number;
             start: Date | null;
@@ -30,6 +31,7 @@ export class StepProduction {
             operatorId: this.props.operatorId,
             action: this.props.action,
             model: this.props.model,
+            matrice: this.props.matrice,
             bonne: this.props.bonne,
             reference: this.props.reference,
             rebut: this.props.rebut,
@@ -50,6 +52,7 @@ export class StepProduction {
             operatorId: state.operatorId,
             action: state.action,
             model: state.model,
+            matrice: state.matrice,
             bonne: state.bonne,
             reference: state.reference,
             rebut: state.rebut,
@@ -72,12 +75,14 @@ export class StepProduction {
         dateService: DateService;
         previousStepsIds?: number[];
         reference?: string;
+        matrice?: string;
     }): StepProduction {
         return new StepProduction({
             stepId: props.stepId,
             operatorId: props.operatorId,
             action: props.action,
             model: props.model,
+            matrice: props.matrice ?? null,
             bonne: 0,
             reference: props.reference ?? null,
             rebut: 0,

@@ -2,6 +2,7 @@ export interface ModelProductionRepository {
     STEP_ID: number;
     OPERATOR_ID: string;
     ACTION_ID: number;
+    MATRICE_ID: string | null;
     MODEL: string;
     BONNE: number;
     REFERENCE: string | null;

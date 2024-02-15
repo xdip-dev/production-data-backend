@@ -198,7 +198,7 @@ describe('End an action', () => {
             );
         },
     );
-    it.only('should Not modify the start date', async () => {
+    it('should Not modify the start date', async () => {
         dateService.nowDate = new Date(2023, 6, 6, 15);
         actionRepository.datas = [
             StepProductionMapper.toRepository(
