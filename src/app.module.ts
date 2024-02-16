@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ActionModule } from './actions/actions.module';
 import { MachineModule } from './machine/machine.module';
 import { PdfModule } from './pdf/pdf.module';
+import { MatriceModule } from './matrice/matrice.module';
 
 @Module({
     imports: [
@@ -15,6 +16,7 @@ import { PdfModule } from './pdf/pdf.module';
         ErpModule,
         ActionModule,
         MachineModule,
+        MatriceModule,
         PdfModule,
     ],
 })

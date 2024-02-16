@@ -33,7 +33,7 @@ export class ErpService implements OnModuleInit, OnModuleDestroy, ErpRepository 
                     return {
                         id: row.id.toString(),
                         name: row.name,
-                        barecode: row.barcode,
+                        barcode: row.barcode,
                     };
                 });
             } finally {

@@ -1,5 +1,5 @@
 import { Controller, Get, HttpException, HttpStatus } from '@nestjs/common';
-import { ErpService } from './ErpService';
+import { ErpService } from './erp.service';
 
 @Controller('erp')
 export class ErpController {

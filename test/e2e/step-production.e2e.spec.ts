@@ -15,6 +15,7 @@ import {
     setupTestEnvironment,
     teardownTestEnvironment,
 } from '../fixtureContainerPrisma';
+import { StepProductionWithActionName } from '@/step-production/domain/port/ProductionRepository';
 
 describe('Step-Production (e2e)', () => {
     let app: INestApplication;
@@ -55,6 +56,9 @@ describe('Step-Production (e2e)', () => {
             const pathUrl = '/step/create';
             it('should create the step into the DB returning a 201', async () => {
                 const stepProductionRepo = new PrismaProductionRepository(prismaClient);
+                const nameAction = await prismaClient.listActions.findFirst({
+                    where: { ID: 1 },
+                });
 
                 await request(app.getHttpServer())
                     .post(pathUrl)
@@ -69,8 +73,9 @@ describe('Step-Production (e2e)', () => {
                     .expect(201);
 
                 const data = await stepProductionRepo.getLastActiveStepByOperatorId('1');
-                expect(data).toEqual(
-                    new StepBuilder()
+
+                const expected: StepProductionWithActionName = {
+                    ...new StepBuilder()
                         .withOperatorId('1')
                         .withId(1)
                         .withAction(1)
@@ -79,8 +84,11 @@ describe('Step-Production (e2e)', () => {
                         .withPreviousStepIds([1, 2])
                         .withReference('ref e2e')
                         .withMatrice('id-code-matrice-2')
-                        .build(),
-                );
+                        .build()
+                        .toState(),
+                    actionName: nameAction?.NAME ?? '',
+                };
+                expect(data).toEqual(expected);
             });
             it.each([
                 { action: 1, model: 'model 1' },
@@ -192,14 +200,20 @@ describe('Step-Production (e2e)', () => {
         describe('step service', () => {
             it('should return the last step by operator', async () => {
                 const stepProductionRepo = new PrismaProductionRepository(prismaClient);
+                const nameAction = await prismaClient.listActions.findFirst({
+                    where: { ID: 1 },
+                });
                 await stepProductionRepo.save(new StepBuilder().withOperatorId('OP-1').build());
 
                 const response = await request(app.getHttpServer())
                     .get('/step/operator/OP-1')
                     .expect(200);
-                expect(response.body).toEqual(
-                    new StepBuilder().withOperatorId('OP-1').build().toState(),
-                );
+
+                const expectedBody: StepProductionWithActionName = {
+                    ...new StepBuilder().withOperatorId('OP-1').build().toState(),
+                    actionName: nameAction?.NAME ?? '',
+                };
+                expect(response.body).toEqual(expectedBody);
             });
             it('should return the step by id', async () => {
                 const stepProductionRepo = new PrismaProductionRepository(prismaClient);

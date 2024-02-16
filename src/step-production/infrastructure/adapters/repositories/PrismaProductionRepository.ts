@@ -1,5 +1,8 @@
 import { StepProduction } from '@/step-production/domain/core/StepProduction';
-import { ProductionRepository } from '@/step-production/domain/port/ProductionRepository';
+import {
+    ProductionRepository,
+    StepProductionWithActionName,
+} from '@/step-production/domain/port/ProductionRepository';
 import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { StepProductionMapper } from './StepProductionMapper';
@@ -16,14 +19,18 @@ export class PrismaProductionRepository implements ProductionRepository {
             update: StepProductionMapper.toRepository(props),
         });
     }
-    async getLastActiveStepByOperatorId(operatorId: string): Promise<StepProduction | null> {
+    async getLastActiveStepByOperatorId(
+        operatorId: string,
+    ): Promise<StepProductionWithActionName | null> {
         const data = await this.prisma.stepProduction.findFirst({
             where: { OPERATOR_ID: operatorId, STATUS: Status.IN_PROGRESS },
+            include: { action: true },
         });
         if (!data) {
             return null;
         }
-        return StepProductionMapper.toDomain(data);
+        const step = StepProductionMapper.toDomain(data);
+        return { ...step.toState(), actionName: data.action.NAME };
     }
     async getLastStepId(): Promise<number | null> {
         return await this.prisma.stepProduction

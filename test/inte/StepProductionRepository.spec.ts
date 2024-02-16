@@ -9,6 +9,7 @@ import {
     teardownTestEnvironment,
 } from '../fixtureContainerPrisma';
 import { Status } from '@/step-production/domain/core/StepStatus';
+import { StepProductionWithActionName } from '@/step-production/domain/port/ProductionRepository';
 
 describe('ProductionRepository', () => {
     let container: StartedTestContainer;
@@ -89,10 +90,16 @@ describe('ProductionRepository', () => {
         });
         it('should return the last step by operator id', async () => {
             const productionRepository = new PrismaProductionRepository(prismaClient);
+            const nameAction = await prismaClient.listActions.findFirst({
+                where: { ID: 1 },
+            });
+
             const lastStep = await productionRepository.getLastActiveStepByOperatorId('2');
-            expect(lastStep?.toState()).toEqual(
-                new StepBuilder().withId(4).withOperatorId('2').build().toState(),
-            );
+            const expected: StepProductionWithActionName = {
+                ...new StepBuilder().withId(4).withOperatorId('2').build().toState(),
+                actionName: nameAction?.NAME ?? '',
+            };
+            expect(lastStep).toEqual(expected);
         });
         it('should return the last step id', async () => {
             const productionRepository = new PrismaProductionRepository(prismaClient);

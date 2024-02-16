@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
-import { ErpService } from './ErpService';
+import { ErpService } from './erp.service';
 import { ConfigService } from '@nestjs/config';
 import { Pool } from 'pg';
-import { ErpController } from './ErpController';
+import { ErpController } from './erp.controller';
 import { InMemoryErpService } from './InMemoryErpService';
 
 @Module({
     controllers: [ErpController],
     providers: [
-        { provide: ErpService, useClass: InMemoryErpService },
+        { provide: ErpService, useClass: ErpService },
         {
             provide: 'DATABASE_POOL',
             useFactory: async (configService: ConfigService) => {

@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { StepProduction } from '../domain/core/StepProduction';
-import { ProductionRepository } from '../domain/port/ProductionRepository';
+import {
+    ProductionRepository,
+    StepProductionWithActionName,
+} from '../domain/port/ProductionRepository';
 
 @Injectable()
 export class StepProductionService {
@@ -11,8 +14,10 @@ export class StepProductionService {
         return step?.toState() ?? null;
     }
 
-    async getLastActiveStepByOperatorId(operatorId: string): Promise<StepProduction['props'] | null> {
+    async getLastActiveStepByOperatorId(
+        operatorId: string,
+    ): Promise<StepProductionWithActionName | null> {
         const step = await this.productionRepository.getLastActiveStepByOperatorId(operatorId);
-        return step?.toState() ?? null;
+        return step;
     }
 }

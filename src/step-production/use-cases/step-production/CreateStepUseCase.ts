@@ -44,7 +44,7 @@ export class CreateStepUseCase {
             await this.productionRepository.getLastActiveStepByOperatorId(props.operatorId);
 
         if (actionExistingForOperator) {
-            return Err.of(new AlreadyOpennedError(actionExistingForOperator.toState().stepId));
+            return Err.of(new AlreadyOpennedError(actionExistingForOperator.stepId));
         }
         await this.productionRepository.save(actionCreated);
 

@@ -1,7 +1,10 @@
 import { StepProductionMapper } from './StepProductionMapper';
 import { ModelProductionRepository } from './ModelProductionRepository';
 import { Injectable } from '@nestjs/common';
-import { ProductionRepository } from '@/step-production/domain/port/ProductionRepository';
+import {
+    ProductionRepository,
+    StepProductionWithActionName,
+} from '@/step-production/domain/port/ProductionRepository';
 import { StepProduction } from '@/step-production/domain/core/StepProduction';
 import { Status } from '@/step-production/domain/core/StepStatus';
 
@@ -31,7 +34,9 @@ export class InMemoryProductionRepository implements ProductionRepository {
         return highestId;
     }
 
-    public async getLastActiveStepByOperatorId(operatorId: string): Promise<StepProduction | null> {
+    public async getLastActiveStepByOperatorId(
+        operatorId: string,
+    ): Promise<StepProductionWithActionName | null> {
         let matchingAction: null | ModelProductionRepository = null;
 
         for (const data of this.datas) {
@@ -43,7 +48,8 @@ export class InMemoryProductionRepository implements ProductionRepository {
         if (!matchingAction) {
             return null;
         }
-        return StepProductionMapper.toDomain(matchingAction);
+        const step = StepProductionMapper.toDomain(matchingAction);
+        return { ...step.toState(), actionName: 'fakeName' };
     }
 
     public async getStepById(id: number): Promise<StepProduction | null> {

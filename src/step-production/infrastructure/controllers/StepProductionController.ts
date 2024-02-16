@@ -17,6 +17,7 @@ import { EndStepDto, EndStepSchema } from './Validations/EndStepValidation';
 import { EndStepUseCase } from '@/step-production/use-cases/step-production/EndStepUseCase';
 import { StepProductionService } from '@/step-production/use-cases/step-production.service';
 import { StepProduction } from '@/step-production/domain/core/StepProduction';
+import { StepProductionWithActionName } from '@/step-production/domain/port/ProductionRepository';
 
 @Controller('/step')
 export class StepProductionController {
@@ -36,7 +37,7 @@ export class StepProductionController {
     @Get('/operator/:id')
     public async lastStepByOperator(
         @Param('id') id: string,
-    ): Promise<StepProduction['props'] | null> {
+    ): Promise<StepProductionWithActionName | null> {
         const res = await this.stepService.getLastActiveStepByOperatorId(id);
         return res;
     }
